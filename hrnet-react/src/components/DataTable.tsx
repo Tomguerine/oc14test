@@ -1,10 +1,18 @@
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 
+/**
+ * Props for the generic {@link DataTable} component.
+ * @property columns - Column definitions for the table
+ * @property data - Data records to display
+ */
 type DataTableProps<T> = {
   columns: ColumnDef<T, any>[]
   data: T[]
 }
 
+/**
+ * Renders a table using TanStack Table for sorting and rendering.
+ */
 function DataTable<T>({ columns, data }: DataTableProps<T>) {
   const table = useReactTable({ columns, data, getCoreRowModel: getCoreRowModel() })
 

@@ -1,7 +1,15 @@
 import * as Select from '@radix-ui/react-select'
 
+/** Option item for the {@link Dropdown} component */
 type Option = { value: string; label: string }
 
+/**
+ * Props for the {@link Dropdown} component.
+ * @property options - Options rendered in the list
+ * @property value - Currently selected value
+ * @property onValueChange - Callback when selection changes
+ * @property placeholder - Placeholder text when no value is selected
+ */
 type DropdownProps = {
   options: Option[]
   value?: string
@@ -9,6 +17,9 @@ type DropdownProps = {
   placeholder?: string
 }
 
+/**
+ * Lightweight select component built on Radix UI's Select primitive.
+ */
 function Dropdown({ options, value, onValueChange, placeholder }: DropdownProps) {
   return (
     <Select.Root value={value} onValueChange={onValueChange}>

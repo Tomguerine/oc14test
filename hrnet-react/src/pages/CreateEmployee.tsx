@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import type { AppDispatch } from '../app/store'
 import * as Select from '@radix-ui/react-select'
 import * as Dialog from '@radix-ui/react-dialog'
 import DatePicker from '../components/DatePicker'
-import { addEmployee } from '../employeesSlice.js'
+import { addEmployee } from '../features/employees/employeesSlice'
 
 const states = [
   'Alabama',
@@ -67,7 +68,7 @@ const departments = [
 ]
 
 export default function CreateEmployee() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [dateOfBirth, setDateOfBirth] = useState('')
