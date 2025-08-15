@@ -21,3 +21,18 @@ label {
 .address {
     margin-top: 10px;
 }
+
+#confirmation {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 1rem;
+    border: 1px solid #000;
+}
+
+#confirmation.show {
+    display: block;
+}

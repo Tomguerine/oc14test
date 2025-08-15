@@ -1,13 +1,6 @@
 <html>
     <head>
         <title>HRnet</title>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="jquery.datetimepicker.full.min.js"></script>
-        <link rel="stylesheet" href="jquery.datetimepicker.css" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <script src="app.js"></script>
         <link rel="stylesheet" href="app.css" />
     </head>
@@ -26,10 +19,10 @@
                 <input type="text" id="last-name" />
 
                 <label for="date-of-birth">Date of Birth</label>
-                <input id="date-of-birth" type="text" >
+                <input id="date-of-birth" type="date" />
 
                 <label for="start-date">Start Date</label>
-                <input id="start-date" type="text" >
+                <input id="start-date" type="date" />
 
                 <fieldset class="address">
                     <legend>Address</legend>
@@ -59,6 +52,6 @@
 
             <button onclick="saveEmployee()">Save</button>
         </div>
-        <div id="confirmation" class="modal">Employee Created!</div>
+        <div id="confirmation">Employee Created!</div>
     </body>
 </html>

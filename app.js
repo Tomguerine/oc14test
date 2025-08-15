@@ -1,22 +1,10 @@
-$( function() {
+document.addEventListener('DOMContentLoaded', function () {
     const stateSelect = document.getElementById('state');
-    states.forEach(function(state) {
+    states.forEach(function (state) {
         const option = document.createElement('option');
         option.value = state.abbreviation;
         option.text = state.name;
         stateSelect.appendChild(option);
-    });
-
-    $( "#department" ).selectmenu();
-    $( "#state" ).selectmenu();
-
-    $('#date-of-birth').datetimepicker({
-        timepicker: false,
-        format: 'm/d/Y'
-    });
-    $('#start-date').datetimepicker({
-        timepicker: false,
-        format: 'm/d/Y'
     });
 });
 
@@ -45,7 +33,7 @@ function saveEmployee() {
     };
     employees.push(employee);
     localStorage.setItem('employees', JSON.stringify(employees));
-    $('#confirmation').modal();
+    document.getElementById('confirmation').classList.add('show');
 }
 
 const states = [
