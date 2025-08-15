@@ -1,0 +1,26 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+npm error Missing script: "test"
+npm error
+npm error To see a list of scripts, run:
+npm error   npm run
+npm error A complete log of this run can be found in: /root/.npm/_logs/2025-08-15T17_01_18_250Z-debug-0.log
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> hrnet-react@0.0.0 lint
+> eslint .
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.32.0
+
+Error: Cannot find package '/workspace/oc14test/hrnet-react/node_modules/@eslint/js/index.js' imported from /workspace/oc14test/hrnet-react/eslint.config.js
+    at legacyMainResolve (node:internal/modules/esm/resolve:215:26)
+    at packageResolve (node:internal/modules/esm/resolve:860:14)
+    at moduleResolve (node:internal/modules/esm/resolve:946:18)
+    at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+    at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:642:12)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:591:25)
+    at ModuleLoader.resolve (node:internal/modules/esm/loader:574:38)
+    at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:236:38)
+    at ModuleJob._link (node:internal/modules/esm/module_job:130:49)
