@@ -112,11 +112,21 @@ export default function CreateEmployee() {
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="firstName">First Name</label>
-          <input id="firstName" value={firstName} onChange={e => setFirstName(e.target.value)} />
+          <input
+            id="firstName"
+            required
+            value={firstName}
+            onChange={e => setFirstName(e.target.value)}
+          />
         </div>
         <div>
           <label htmlFor="lastName">Last Name</label>
-          <input id="lastName" value={lastName} onChange={e => setLastName(e.target.value)} />
+          <input
+            id="lastName"
+            required
+            value={lastName}
+            onChange={e => setLastName(e.target.value)}
+          />
         </div>
         <DatePicker id="dateOfBirth" label="Date of Birth" value={dateOfBirth} onChange={e => setDateOfBirth(e.target.value)} />
         <DatePicker id="startDate" label="Start Date" value={startDate} onChange={e => setStartDate(e.target.value)} />

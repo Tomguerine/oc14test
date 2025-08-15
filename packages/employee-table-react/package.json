@@ -1,0 +1,23 @@
+{
+  "name": "employee-table-react",
+  "version": "1.0.0",
+  "description": "React component for displaying an employee table",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "files": ["dist"],
+  "scripts": {
+    "build": "babel src --out-dir dist --presets @babel/preset-react",
+    "test": "echo \"No tests specified\""
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.24.5",
+    "@babel/preset-react": "^7.24.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}
