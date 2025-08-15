@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import type { AppDispatch } from '../app/store'
 import * as Select from '@radix-ui/react-select'
@@ -79,9 +79,28 @@ export default function CreateEmployee() {
   const [zipCode, setZipCode] = useState('')
   const [department, setDepartment] = useState('')
   const [open, setOpen] = useState(false)
+  const [error, setError] = useState('')
+  const [announcement, setAnnouncement] = useState('')
+
+  const handleDateOfBirthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDateOfBirth(e.target.value)
+    setAnnouncement(`Date of birth set to ${e.target.value}`)
+  }
+
+  const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setStartDate(e.target.value)
+    setAnnouncement(`Start date set to ${e.target.value}`)
+  }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    if (!firstName || !lastName) {
+      const msg = 'First and last name are required.'
+      setError(msg)
+      setAnnouncement(msg)
+      return
+    }
+    setError('')
     dispatch(
       addEmployee({
         firstName,
@@ -107,8 +126,24 @@ export default function CreateEmployee() {
     setDepartment('')
   }
 
+  useEffect(() => {
+    if (open) {
+      setAnnouncement('Employee created dialog opened')
+    } else {
+      setAnnouncement('Employee created dialog closed')
+    }
+  }, [open])
+
   return (
     <>
+      <div aria-live="polite" className="sr-only">
+        {announcement}
+      </div>
+      {error && (
+        <p role="alert" className="error">
+          {error}
+        </p>
+      )}
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="firstName">First Name</label>
@@ -128,8 +163,8 @@ export default function CreateEmployee() {
             onChange={e => setLastName(e.target.value)}
           />
         </div>
-        <DatePicker id="dateOfBirth" label="Date of Birth" value={dateOfBirth} onChange={e => setDateOfBirth(e.target.value)} />
-        <DatePicker id="startDate" label="Start Date" value={startDate} onChange={e => setStartDate(e.target.value)} />
+        <DatePicker id="dateOfBirth" label="Date of Birth" value={dateOfBirth} onChange={handleDateOfBirthChange} />
+        <DatePicker id="startDate" label="Start Date" value={startDate} onChange={handleStartDateChange} />
         <div>
           <label htmlFor="street">Street</label>
           <input id="street" value={street} onChange={e => setStreet(e.target.value)} />
