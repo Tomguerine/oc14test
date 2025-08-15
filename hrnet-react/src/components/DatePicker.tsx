@@ -13,3 +13,5 @@ export default function DatePicker({ label, id, ...props }: DatePickerProps) {
   )
 }
 
+
+export default DatePicker
