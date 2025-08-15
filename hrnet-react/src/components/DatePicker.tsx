@@ -1,9 +1,17 @@
 import { InputHTMLAttributes } from 'react'
 
-type DatePickerProps = InputHTMLAttributes<HTMLInputElement> & {
+/**
+ * Props for the {@link DatePicker} component.
+ * Combines standard input props with a required label.
+ */
+export type DatePickerProps = InputHTMLAttributes<HTMLInputElement> & {
+  /** Label displayed for the date input */
   label: string
 }
 
+/**
+ * Renders a date input with an associated label.
+ */
 export default function DatePicker({ label, id, ...props }: DatePickerProps) {
   return (
     <div>

@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import type { AppDispatch } from '../app/store'
 import * as Select from '@radix-ui/react-select'
 import * as Dialog from '@radix-ui/react-dialog'
 import DatePicker from '../components/DatePicker'
-import { addEmployee } from '../employeesSlice.js'
+import { addEmployee } from '../features/employees/employeesSlice'
 
 const states = [
   'Alabama',
@@ -67,7 +68,7 @@ const departments = [
 ]
 
 export default function CreateEmployee() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [dateOfBirth, setDateOfBirth] = useState('')
@@ -146,11 +147,21 @@ export default function CreateEmployee() {
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="firstName">First Name</label>
-          <input id="firstName" value={firstName} onChange={e => setFirstName(e.target.value)} />
+          <input
+            id="firstName"
+            required
+            value={firstName}
+            onChange={e => setFirstName(e.target.value)}
+          />
         </div>
         <div>
           <label htmlFor="lastName">Last Name</label>
-          <input id="lastName" value={lastName} onChange={e => setLastName(e.target.value)} />
+          <input
+            id="lastName"
+            required
+            value={lastName}
+            onChange={e => setLastName(e.target.value)}
+          />
         </div>
         <DatePicker id="dateOfBirth" label="Date of Birth" value={dateOfBirth} onChange={handleDateOfBirthChange} />
         <DatePicker id="startDate" label="Start Date" value={startDate} onChange={handleStartDateChange} />
