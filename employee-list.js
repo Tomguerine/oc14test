@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+
     const employees = JSON.parse(localStorage.getItem('employees')) || [];
     const table = document.getElementById('employee-table');
 
@@ -12,11 +13,13 @@ document.addEventListener('DOMContentLoaded', function () {
         { title: 'City', key: 'city' },
         { title: 'State', key: 'state' },
         { title: 'Zip Code', key: 'zipCode' }
+
     ];
 
     const thead = document.createElement('thead');
     const headerRow = document.createElement('tr');
     columns.forEach(function (col) {
+
         const th = document.createElement('th');
         th.textContent = col.title;
         headerRow.appendChild(th);
@@ -30,6 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
         columns.forEach(function (col) {
             const td = document.createElement('td');
             td.textContent = emp[col.key];
+
             row.appendChild(td);
         });
         tbody.appendChild(row);
@@ -37,3 +41,4 @@ document.addEventListener('DOMContentLoaded', function () {
     table.appendChild(tbody);
 });
 
+});
