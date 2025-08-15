@@ -5,14 +5,18 @@ interface Employee {
   [key: string]: any
 }
 
-const initialState: Employee[] = []
+interface EmployeesState {
+  list: Employee[]
+}
+
+const initialState: EmployeesState = { list: [] }
 
 const employeesSlice = createSlice({
   name: 'employees',
   initialState,
   reducers: {
     addEmployee: (state, action: PayloadAction<Employee>) => {
-      state.push(action.payload)
+      state.list.push(action.payload)
     },
   },
 })

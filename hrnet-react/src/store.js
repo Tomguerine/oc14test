@@ -9,7 +9,7 @@ const store = configureStore({
 
 store.subscribe(() => {
   try {
-    const serialized = JSON.stringify(store.getState().employees)
+    const serialized = JSON.stringify(store.getState().employees.list)
     localStorage.setItem('employees', serialized)
   } catch {
     // ignore write errors

@@ -20,26 +20,28 @@ const loadEmployees = () => {
   }
 }
 
+const initialState = { list: loadEmployees() }
+
 const employeesSlice = createSlice({
   name: 'employees',
-  initialState: loadEmployees(),
+  initialState,
   reducers: {
     addEmployee: {
       reducer(state, action) {
-        state.push(action.payload)
+        state.list.push(action.payload)
       },
       prepare(employee) {
         return { payload: { id: nanoid(), ...employee } }
       },
     },
     updateEmployee(state, action) {
-      const index = state.findIndex(e => e.id === action.payload.id)
+      const index = state.list.findIndex(e => e.id === action.payload.id)
       if (index !== -1) {
-        state[index] = action.payload
+        state.list[index] = action.payload
       }
     },
     removeEmployee(state, action) {
-      return state.filter(e => e.id !== action.payload)
+      state.list = state.list.filter(e => e.id !== action.payload)
     },
   },
 })

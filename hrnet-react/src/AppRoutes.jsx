@@ -1,14 +1,14 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Home from './pages/Home'
-import EmployeesList from './pages/EmployeesList'
+import CreateEmployee from './pages/CreateEmployee'
+import EmployeeList from './pages/EmployeeList'
 import NotFound from './pages/NotFound'
 
 export default function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/employees" element={<EmployeesList />} />
+        <Route path="/" element={<CreateEmployee />} />
+        <Route path="/employees" element={<EmployeeList />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
