@@ -1,0 +1,13 @@
+/* Global reset and color variables */
+:root {
+  --color-primary: #646cff;
+  --color-secondary: #535bf2;
+  --color-background: #242424;
+  --color-text: #213547;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
