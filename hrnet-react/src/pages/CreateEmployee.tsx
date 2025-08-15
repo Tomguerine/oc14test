@@ -1,9 +1,13 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import DatePicker from '../components/DatePicker'
 import Dropdown from '../components/Dropdown'
 import Modal from '../components/Modal'
 import { addEmployee } from '../employeesSlice.js'
+import type { AppDispatch } from '../app/store'
+import * as Select from '@radix-ui/react-select'
+import * as Dialog from '@radix-ui/react-dialog'
+import DatePicker from '../components/DatePicker'
 
 const states = [
   'Alabama',
@@ -67,7 +71,7 @@ const departments = [
 ]
 
 export default function CreateEmployee() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
@@ -97,11 +101,28 @@ export default function CreateEmployee() {
     if (!department) newErrors.department = 'Department is required'
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
+  const [error, setError] = useState('')
+  const [announcement, setAnnouncement] = useState('')
+
+  const handleDateOfBirthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDateOfBirth(e.target.value)
+    setAnnouncement(`Date of birth set to ${e.target.value}`)
+  }
+
+  const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setStartDate(e.target.value)
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!validate()) return
+    if (!firstName || !lastName) {
+      const msg = 'First and last name are required.'
+      setError(msg)
+      setAnnouncement(msg)
+      return
+    }
+    setError('')
     dispatch(
       addEmployee({
         firstName,
@@ -130,9 +151,26 @@ export default function CreateEmployee() {
     setErrors({})
   }
 
+  useEffect(() => {
+    if (open) {
+      setAnnouncement('Employee created dialog opened')
+    } else {
+      setAnnouncement('Employee created dialog closed')
+    }
+  }, [open])
+
   return (
     <>
       <form onSubmit={handleSubmit} noValidate>
+      <div aria-live="polite" className="sr-only">
+        {announcement}
+      </div>
+      {error && (
+        <p role="alert" className="error">
+          {error}
+        </p>
+      )}
+      <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="firstName">First Name</label>
           <input
@@ -148,6 +186,10 @@ export default function CreateEmployee() {
               {errors.firstName}
             </span>
           )}
+            required
+            value={firstName}
+            onChange={e => setFirstName(e.target.value)}
+          />
         </div>
         <div>
           <label htmlFor="lastName">Last Name</label>
@@ -165,6 +207,13 @@ export default function CreateEmployee() {
             </span>
           )}
         </div>
+            required
+            value={lastName}
+            onChange={e => setLastName(e.target.value)}
+          />
+        </div>
+        <DatePicker id="dateOfBirth" label="Date of Birth" value={dateOfBirth} onChange={handleDateOfBirthChange} />
+        <DatePicker id="startDate" label="Start Date" value={startDate} onChange={handleStartDateChange} />
         <div>
           <label htmlFor="email">Email</label>
           <input

@@ -3,6 +3,7 @@ import * as Dialog from '@radix-ui/react-dialog'
 
 type DatePickerProps = InputHTMLAttributes<HTMLInputElement> & {
   id: string
+
   label: string
   value: string
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
@@ -129,6 +130,10 @@ export default function DatePicker({ id, label, value, onChange, ...rest }: Date
     return rows
   }
 
+/**
+ * Renders a date input with an associated label.
+ */
+export default function DatePicker({ label, id, ...props }: DatePickerProps) {
   return (
     <div>
       <label htmlFor={id}>{label}</label>

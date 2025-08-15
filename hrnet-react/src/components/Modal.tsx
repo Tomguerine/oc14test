@@ -1,6 +1,14 @@
 import { ReactNode, useState } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 
+/**
+ * Props for the {@link Modal} component.
+ * @property trigger - Element that opens the modal when clicked
+ * @property title - Optional title displayed at the top of the dialog
+ * @property children - Modal content
+ * @property open - Controlled open state
+ * @property onOpenChange - Callback invoked when the open state changes
+ */
 type ModalProps = {
   trigger?: ReactNode
   title?: ReactNode
@@ -9,6 +17,9 @@ type ModalProps = {
   onOpenChange?: (open: boolean) => void
 }
 
+/**
+ * Simple modal dialog built with Radix UI's Dialog primitives.
+ */
 function Modal({ trigger, title, children, open, onOpenChange }: ModalProps) {
   const [live, setLive] = useState('')
   return (

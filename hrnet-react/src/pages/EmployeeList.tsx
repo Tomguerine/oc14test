@@ -11,18 +11,10 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 import type { RootState } from '../app/store'
-
-interface Employee {
-  id: number
-  firstName: string
-  lastName: string
-  department: string
-  startDate?: string
-  dateOfBirth?: string
-}
+import type { Employee } from '../features/employees/employeesSlice'
 
 export default function EmployeeList() {
-  const data = useSelector((state: RootState) => state.employees.list)
+  const data = useSelector((state: RootState) => state.employees.employees)
   const [sorting, setSorting] = useState<SortingState>([])
   const [globalFilter, setGlobalFilter] = useState('')
 

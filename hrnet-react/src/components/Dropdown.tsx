@@ -1,8 +1,16 @@
 import { useState } from 'react'
 import * as Select from '@radix-ui/react-select'
 
+/** Option item for the {@link Dropdown} component */
 type Option = { value: string; label: string }
 
+/**
+ * Props for the {@link Dropdown} component.
+ * @property options - Options rendered in the list
+ * @property value - Currently selected value
+ * @property onValueChange - Callback when selection changes
+ * @property placeholder - Placeholder text when no value is selected
+ */
 type DropdownProps = {
   id: string
   label: string
@@ -14,6 +22,7 @@ type DropdownProps = {
 
 function Dropdown({ id, label, options, value, onValueChange, placeholder }: DropdownProps) {
   const [live, setLive] = useState('')
+
   return (
     <div>
       <label id={`${id}-label`} htmlFor={`${id}-trigger`}>
