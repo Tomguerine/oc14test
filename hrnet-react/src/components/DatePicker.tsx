@@ -1,12 +1,17 @@
+import { InputHTMLAttributes } from 'react'
 
-type DatePickerProps = {
-  value?: string
-  onChange?: (value: string) => void
+type DatePickerProps = InputHTMLAttributes<HTMLInputElement> & {
+  label: string
 }
 
-function DatePicker({ value, onChange }: DatePickerProps) {
-  return <input type="date" value={value} onChange={(e) => onChange?.(e.target.value)} />
+export default function DatePicker({ label, id, ...props }: DatePickerProps) {
+  return (
+    <div>
+      <label htmlFor={id}>{label}</label>
+      <input type="date" id={id} {...props} />
+    </div>
+  )
 }
 
-export { DatePicker }
+
 export default DatePicker
