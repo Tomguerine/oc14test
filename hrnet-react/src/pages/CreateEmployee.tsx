@@ -5,9 +5,6 @@ import Dropdown from '../components/Dropdown'
 import Modal from '../components/Modal'
 import { addEmployee } from '../employeesSlice.js'
 import type { AppDispatch } from '../app/store'
-import * as Select from '@radix-ui/react-select'
-import * as Dialog from '@radix-ui/react-dialog'
-import DatePicker from '../components/DatePicker'
 
 const states = [
   'Alabama',
