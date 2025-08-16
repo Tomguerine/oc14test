@@ -31,8 +31,9 @@ const employeesSlice = createSlice({
   name: 'employees',
   initialState,
   reducers: {
-    addEmployee: (state, action: PayloadAction<Employee>) => {
-      state.employees.push(action.payload)
+    addEmployee: (state, action: PayloadAction<Omit<Employee, 'id'>>) => {
+      const newEmployee: Employee = { id: crypto.randomUUID(), ...action.payload }
+      state.employees.push(newEmployee)
       localStorage.setItem('employees', JSON.stringify(state.employees))
     },
   },
