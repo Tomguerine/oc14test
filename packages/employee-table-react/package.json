@@ -6,6 +6,10 @@
   "main": "dist/index.js",
   "module": "dist/index.js",
   "files": ["dist"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/employee-table-react"
+  },
   "scripts": {
     "build": "babel src --out-dir dist --presets @babel/preset-react",
     "test": "echo \"No tests specified\""

@@ -1,6 +1,6 @@
 # employee-table-react
 
-A small React component for displaying employees in a table.
+A collection of reusable React components for HRnet, including an employee table and form widgets.
 
 ## Installation
 
@@ -9,6 +9,14 @@ npm install employee-table-react
 # or
 yarn add employee-table-react
 ```
+
+## Components
+
+- `EmployeeTable` – display employees in a table.
+- `Dropdown` – select options from a list.
+- `DatePicker` – choose dates.
+- `Modal` – render content in a dialog.
+- `DataTable` – generic table for arbitrary data.
 
 ## Usage
 

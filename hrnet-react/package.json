@@ -2,6 +2,10 @@
   "name": "hrnet-react",
   "private": true,
   "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/hrnet-react"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",

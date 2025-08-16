@@ -54,13 +54,19 @@ This repository hosts the React implementation of HRnet. The legacy jQuery versi
 
 ## Plugin Package
 
-Reusable UI pieces are published via the `hrnet-react` plugin package (available in the `hrnet-react` directory). Install it in other projects with:
+Reusable UI pieces are published via the `employee-table-react` package (available in `packages/employee-table-react`).
+Install it in other projects with:
 
 ```
-npm install hrnet-react
+npm install employee-table-react
 ```
 
 The package exposes the following components:
+
+### `<EmployeeTable />`
+| Prop | Type | Description |
+| --- | --- | --- |
+| `employees` | `{ id: string | number; firstName: string; lastName: string; department: string }[]` | Array of employees to display |
 
 ### `<Dropdown />`
 | Prop | Type | Description |
