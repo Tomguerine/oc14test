@@ -1,4 +1,5 @@
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
+import '../styles/DataTable.css'
 
 /**
  * Props for the generic {@link DataTable} component.
@@ -17,7 +18,7 @@ function DataTable<T>({ columns, data }: DataTableProps<T>) {
   const table = useReactTable({ columns, data, getCoreRowModel: getCoreRowModel() })
 
   return (
-    <table>
+    <table className="data-table">
       <thead>
         {table.getHeaderGroups().map((headerGroup) => (
           <tr key={headerGroup.id}>
