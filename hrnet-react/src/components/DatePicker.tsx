@@ -134,7 +134,7 @@ export default function DatePicker({ id, label, value, onChange, ...rest }: Date
    * Renders a date input with an associated label.
    */
   return (
-    <div>
+    <div className="flex flex-col gap-1">
       <label htmlFor={id}>{label}</label>
       <div className="flex items-center gap-2">
         <input

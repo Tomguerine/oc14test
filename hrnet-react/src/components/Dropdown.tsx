@@ -25,7 +25,7 @@ function Dropdown({ id, label, options, value, onValueChange, placeholder }: Dro
   const [live, setLive] = useState('')
 
   return (
-    <div>
+    <div className="flex flex-col gap-1">
       <label id={`${id}-label`} htmlFor={`${id}-trigger`}>
         {label}
       </label>
