@@ -1,0 +1,3 @@
+https://github.com/your-username/hrnet-react
+https://github.com/your-username/employee-table-react
+https://www.npmjs.com/package/employee-table-react
