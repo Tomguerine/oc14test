@@ -100,7 +100,7 @@ export default function CreateEmployee() {
     if (!department) newErrors.department = 'Department is required'
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
-  }
+}
 
   const [error, setError] = useState('')
   const [announcement, setAnnouncement] = useState('')
@@ -163,14 +163,14 @@ export default function CreateEmployee() {
   return (
     <>
       <form onSubmit={handleSubmit} noValidate>
-        <div aria-live="polite" className="sr-only">
-          {announcement}
-        </div>
-        {error && (
-          <p role="alert" className="error">
-            {error}
-          </p>
-        )}
+      <div aria-live="polite" className="sr-only">
+        {announcement}
+      </div>
+      {error && (
+        <p role="alert" className="error">
+          {error}
+        </p>
+      )}
 
         <div>
           <label htmlFor="firstName">First Name</label>
@@ -205,7 +205,6 @@ export default function CreateEmployee() {
             </span>
           )}
         </div>
-
         <div>
           <label htmlFor="email">Email</label>
           <input
@@ -223,15 +222,31 @@ export default function CreateEmployee() {
             </span>
           )}
         </div>
+        <DatePicker
+          id="dateOfBirth"
+          label="Date of Birth"
+          value={dateOfBirth}
+          onChange={handleDateOfBirthChange}
+          required
+          aria-invalid={errors.dateOfBirth ? 'true' : 'false'}
+          aria-describedby="dob-error"
+        />
 
-        <DatePicker id="dateOfBirth" label="Date of Birth" value={dateOfBirth} onChange={handleDateOfBirthChange} />
         {errors.dateOfBirth && (
           <span id="dob-error" role="alert">
             {errors.dateOfBirth}
           </span>
         )}
+        <DatePicker
+          id="startDate"
+          label="Start Date"
+          value={startDate}
+          onChange={handleStartDateChange}
+          required
+          aria-invalid={errors.startDate ? 'true' : 'false'}
+          aria-describedby="startDate-error"
+        />
 
-        <DatePicker id="startDate" label="Start Date" value={startDate} onChange={handleStartDateChange} />
         {errors.startDate && (
           <span id="startDate-error" role="alert">
             {errors.startDate}
