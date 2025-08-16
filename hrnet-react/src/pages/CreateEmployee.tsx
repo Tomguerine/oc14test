@@ -5,9 +5,6 @@ import Dropdown from '../components/Dropdown'
 import Modal from '../components/Modal'
 import { addEmployee } from '../employeesSlice.js'
 import type { AppDispatch } from '../app/store'
-import * as Select from '@radix-ui/react-select'
-import * as Dialog from '@radix-ui/react-dialog'
-import DatePicker from '../components/DatePicker'
 
 const states = [
   'Alabama',
@@ -101,6 +98,7 @@ export default function CreateEmployee() {
     if (!department) newErrors.department = 'Department is required'
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
+}
   const [error, setError] = useState('')
   const [announcement, setAnnouncement] = useState('')
 
@@ -170,7 +168,6 @@ export default function CreateEmployee() {
           {error}
         </p>
       )}
-      <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="firstName">First Name</label>
           <input
@@ -186,10 +183,6 @@ export default function CreateEmployee() {
               {errors.firstName}
             </span>
           )}
-            required
-            value={firstName}
-            onChange={e => setFirstName(e.target.value)}
-          />
         </div>
         <div>
           <label htmlFor="lastName">Last Name</label>
@@ -207,13 +200,6 @@ export default function CreateEmployee() {
             </span>
           )}
         </div>
-            required
-            value={lastName}
-            onChange={e => setLastName(e.target.value)}
-          />
-        </div>
-        <DatePicker id="dateOfBirth" label="Date of Birth" value={dateOfBirth} onChange={handleDateOfBirthChange} />
-        <DatePicker id="startDate" label="Start Date" value={startDate} onChange={handleStartDateChange} />
         <div>
           <label htmlFor="email">Email</label>
           <input
@@ -235,7 +221,7 @@ export default function CreateEmployee() {
           id="dateOfBirth"
           label="Date of Birth"
           value={dateOfBirth}
-          onChange={e => setDateOfBirth(e.target.value)}
+          onChange={handleDateOfBirthChange}
           required
           aria-invalid={errors.dateOfBirth ? 'true' : 'false'}
           aria-describedby="dob-error"
@@ -249,7 +235,7 @@ export default function CreateEmployee() {
           id="startDate"
           label="Start Date"
           value={startDate}
-          onChange={e => setStartDate(e.target.value)}
+          onChange={handleStartDateChange}
           required
           aria-invalid={errors.startDate ? 'true' : 'false'}
           aria-describedby="startDate-error"
