@@ -1,13 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type ChangeEvent, type FormEvent } from 'react'
 import { useDispatch } from 'react-redux'
 import DatePicker from '../components/DatePicker'
 import Dropdown from '../components/Dropdown'
 import Modal from '../components/Modal'
 import { addEmployee } from '../employeesSlice.js'
 import type { AppDispatch } from '../app/store'
-import * as Select from '@radix-ui/react-select'
-import * as Dialog from '@radix-ui/react-dialog'
-import DatePicker from '../components/DatePicker'
 
 const states = [
   'Alabama',
@@ -84,6 +81,8 @@ export default function CreateEmployee() {
   const [department, setDepartment] = useState('')
   const [open, setOpen] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const [error, setError] = useState('')
+  const [announcement, setAnnouncement] = useState('')
 
   const validate = () => {
     const newErrors: Record<string, string> = {}
@@ -101,19 +100,18 @@ export default function CreateEmployee() {
     if (!department) newErrors.department = 'Department is required'
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
-  const [error, setError] = useState('')
-  const [announcement, setAnnouncement] = useState('')
+  }
 
-  const handleDateOfBirthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleDateOfBirthChange = (e: ChangeEvent<HTMLInputElement>) => {
     setDateOfBirth(e.target.value)
     setAnnouncement(`Date of birth set to ${e.target.value}`)
   }
 
-  const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleStartDateChange = (e: ChangeEvent<HTMLInputElement>) => {
     setStartDate(e.target.value)
   }
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!validate()) return
     if (!firstName || !lastName) {
@@ -162,15 +160,15 @@ export default function CreateEmployee() {
   return (
     <>
       <form onSubmit={handleSubmit} noValidate>
-      <div aria-live="polite" className="sr-only">
-        {announcement}
-      </div>
-      {error && (
-        <p role="alert" className="error">
-          {error}
-        </p>
-      )}
-      <form onSubmit={handleSubmit}>
+        <div aria-live="polite" className="sr-only">
+          {announcement}
+        </div>
+        {error && (
+          <p role="alert" className="error">
+            {error}
+          </p>
+        )}
+
         <div>
           <label htmlFor="firstName">First Name</label>
           <input
@@ -186,11 +184,8 @@ export default function CreateEmployee() {
               {errors.firstName}
             </span>
           )}
-            required
-            value={firstName}
-            onChange={e => setFirstName(e.target.value)}
-          />
         </div>
+
         <div>
           <label htmlFor="lastName">Last Name</label>
           <input
@@ -207,13 +202,7 @@ export default function CreateEmployee() {
             </span>
           )}
         </div>
-            required
-            value={lastName}
-            onChange={e => setLastName(e.target.value)}
-          />
-        </div>
-        <DatePicker id="dateOfBirth" label="Date of Birth" value={dateOfBirth} onChange={handleDateOfBirthChange} />
-        <DatePicker id="startDate" label="Start Date" value={startDate} onChange={handleStartDateChange} />
+
         <div>
           <label htmlFor="email">Email</label>
           <input
@@ -231,34 +220,21 @@ export default function CreateEmployee() {
             </span>
           )}
         </div>
-        <DatePicker
-          id="dateOfBirth"
-          label="Date of Birth"
-          value={dateOfBirth}
-          onChange={e => setDateOfBirth(e.target.value)}
-          required
-          aria-invalid={errors.dateOfBirth ? 'true' : 'false'}
-          aria-describedby="dob-error"
-        />
+
+        <DatePicker id="dateOfBirth" label="Date of Birth" value={dateOfBirth} onChange={handleDateOfBirthChange} />
         {errors.dateOfBirth && (
           <span id="dob-error" role="alert">
             {errors.dateOfBirth}
           </span>
         )}
-        <DatePicker
-          id="startDate"
-          label="Start Date"
-          value={startDate}
-          onChange={e => setStartDate(e.target.value)}
-          required
-          aria-invalid={errors.startDate ? 'true' : 'false'}
-          aria-describedby="startDate-error"
-        />
+
+        <DatePicker id="startDate" label="Start Date" value={startDate} onChange={handleStartDateChange} />
         {errors.startDate && (
           <span id="startDate-error" role="alert">
             {errors.startDate}
           </span>
         )}
+
         <div>
           <label htmlFor="street">Street</label>
           <input
@@ -275,6 +251,7 @@ export default function CreateEmployee() {
             </span>
           )}
         </div>
+
         <div>
           <label htmlFor="city">City</label>
           <input
@@ -291,6 +268,7 @@ export default function CreateEmployee() {
             </span>
           )}
         </div>
+
         <Dropdown
           id="state"
           label="State"
@@ -304,6 +282,7 @@ export default function CreateEmployee() {
             {errors.state}
           </span>
         )}
+
         <div>
           <label htmlFor="zipCode">Zip Code</label>
           <input
@@ -322,6 +301,7 @@ export default function CreateEmployee() {
             </span>
           )}
         </div>
+
         <Dropdown
           id="department"
           label="Department"
@@ -335,6 +315,7 @@ export default function CreateEmployee() {
             {errors.department}
           </span>
         )}
+
         <button type="submit">Save</button>
       </form>
       <Modal open={open} onOpenChange={setOpen} title="Employee Created">
