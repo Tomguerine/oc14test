@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import DatePicker from '../components/DatePicker'
 import Dropdown from '../components/Dropdown'
 import Modal from '../components/Modal'
-import { addEmployee } from '../employeesSlice.js'
+import { addEmployee } from '../features/employees/employeesSlice'
 import type { AppDispatch } from '../app/store'
 
 const states = [
