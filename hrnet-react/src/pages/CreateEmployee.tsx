@@ -101,6 +101,7 @@ export default function CreateEmployee() {
     if (!department) newErrors.department = 'Department is required'
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
+  }
   const [error, setError] = useState('')
   const [announcement, setAnnouncement] = useState('')
 
