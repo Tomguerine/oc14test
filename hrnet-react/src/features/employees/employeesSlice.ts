@@ -8,6 +8,16 @@ export interface Employee {
   firstName: string
   /** Employee's last name */
   lastName: string
+  /** Employee email address */
+  email: string
+  /** Street address */
+  street: string
+  /** City of residence */
+  city: string
+  /** State of residence */
+  state: string
+  /** 5-digit postal code */
+  zipCode: string
   /** Department within the organisation */
   department: string
   /** Employment start date */

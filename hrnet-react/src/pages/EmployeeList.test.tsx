@@ -7,6 +7,11 @@ type Employee = {
   id: number
   firstName: string
   lastName: string
+  email: string
+  street: string
+  city: string
+  state: string
+  zipCode: string
   department: string
 }
 
@@ -24,8 +29,28 @@ function renderWithData(data: Employee[]) {
 describe('EmployeeList table', () => {
   it('sorts by first name', () => {
     const data = [
-      { id: 1, firstName: 'Bob', lastName: 'B', department: 'Sales' },
-      { id: 2, firstName: 'Alice', lastName: 'A', department: 'Sales' },
+      {
+        id: 1,
+        firstName: 'Bob',
+        lastName: 'B',
+        email: 'bob@example.com',
+        street: '1 St',
+        city: 'City',
+        state: 'CA',
+        zipCode: '12345',
+        department: 'Sales',
+      },
+      {
+        id: 2,
+        firstName: 'Alice',
+        lastName: 'A',
+        email: 'alice@example.com',
+        street: '1 St',
+        city: 'City',
+        state: 'CA',
+        zipCode: '12345',
+        department: 'Sales',
+      },
     ]
     renderWithData(data)
     const rows = screen.getAllByRole('row').slice(1)
@@ -38,8 +63,28 @@ describe('EmployeeList table', () => {
 
   it('filters globally', () => {
     const data = [
-      { id: 1, firstName: 'Bob', lastName: 'B', department: 'Sales' },
-      { id: 2, firstName: 'Alice', lastName: 'A', department: 'Sales' },
+      {
+        id: 1,
+        firstName: 'Bob',
+        lastName: 'B',
+        email: 'bob@example.com',
+        street: '1 St',
+        city: 'City',
+        state: 'CA',
+        zipCode: '12345',
+        department: 'Sales',
+      },
+      {
+        id: 2,
+        firstName: 'Alice',
+        lastName: 'A',
+        email: 'alice@example.com',
+        street: '1 St',
+        city: 'City',
+        state: 'CA',
+        zipCode: '12345',
+        department: 'Sales',
+      },
     ]
     renderWithData(data)
     fireEvent.change(screen.getByPlaceholderText(/search/i), {
@@ -55,6 +100,11 @@ describe('EmployeeList table', () => {
       id: i + 1,
       firstName: `Name${i + 1}`,
       lastName: 'Last',
+      email: `name${i + 1}@example.com`,
+      street: '1 St',
+      city: 'City',
+      state: 'CA',
+      zipCode: '12345',
       department: 'Sales',
     }))
     renderWithData(data)
