@@ -1,6 +1,13 @@
-npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
 
 > hrnet-react@0.0.0 build
 > vite build
 
-sh: 1: vite: not found
+vite v7.1.2 building for production...
+transforming...
+✓ 130 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.46 kB │ gzip:   0.29 kB
+dist/assets/index-DUYa6eHS.css    0.19 kB │ gzip:   0.17 kB
+dist/assets/index-DpdJxJLr.js   384.52 kB │ gzip: 123.13 kB
+✓ built in 2.90s

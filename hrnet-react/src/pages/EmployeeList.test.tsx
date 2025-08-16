@@ -3,7 +3,14 @@ import { Provider } from 'react-redux'
 import { configureStore } from '@reduxjs/toolkit'
 import EmployeeList from './EmployeeList'
 
-function renderWithData(data: any[]) {
+type Employee = {
+  id: number
+  firstName: string
+  lastName: string
+  department: string
+}
+
+function renderWithData(data: Employee[]) {
   const store = configureStore({
     reducer: { employees: () => ({ employees: data }) },
   })

@@ -16,6 +16,7 @@ type DropdownProps = {
   label: string
   options: Option[]
   value?: string
+  // eslint-disable-next-line no-unused-vars
   onValueChange?: (value: string) => void
   placeholder?: string
 }
