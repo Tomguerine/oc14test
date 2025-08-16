@@ -5,7 +5,7 @@ import EmployeeList from './EmployeeList'
 
 function renderWithData(data: any[]) {
   const store = configureStore({
-    reducer: { employees: () => ({ list: data }) },
+    reducer: { employees: () => ({ employees: data }) },
   })
   render(
     <Provider store={store}>

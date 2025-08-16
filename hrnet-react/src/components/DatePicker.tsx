@@ -130,10 +130,9 @@ export default function DatePicker({ id, label, value, onChange, ...rest }: Date
     return rows
   }
 
-/**
- * Renders a date input with an associated label.
- */
-export default function DatePicker({ label, id, ...props }: DatePickerProps) {
+  /**
+   * Renders a date input with an associated label.
+   */
   return (
     <div>
       <label htmlFor={id}>{label}</label>
