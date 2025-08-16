@@ -18,3 +18,55 @@ body {
 .error {
   color: #b00020;
 }
+
+/* Table styles */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.employee-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.employee-table th,
+.employee-table td {
+  border: 1px solid #ddd;
+  padding: 0.5rem 1rem;
+}
+
+.employee-table tbody tr:hover {
+  background-color: #f3f4f6;
+}
+
+/* Search field */
+.search-input {
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
+/* Pagination */
+.pagination {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pagination-button {
+  border: 1px solid #ccc;
+  padding: 0.5rem 1rem;
+  background-color: #f9fafb;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.pagination-button:hover:not(:disabled) {
+  background-color: #f3f4f6;
+}
+
+.pagination-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
