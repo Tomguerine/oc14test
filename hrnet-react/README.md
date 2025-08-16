@@ -1,12 +1,37 @@
-# React + Vite
+# HRNet React
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Project overview and purpose
+HRNet React is the front-end for the company's internal HR management tool. It lets users create and view employee records using a modern React + Vite stack. The project showcases type-safe state management, accessible UI primitives, and modular components.
 
-Currently, two official plugins are available:
+## Installation
+```bash
+npm install
+```
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Development
+```bash
+npm run dev
+```
 
-## Expanding the ESLint configuration
+## Build
+```bash
+npm run build
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Testing
+```bash
+npm test
+```
+
+## Notes
+### Global state management
+State is centralised with [Redux Toolkit](https://redux-toolkit.js.org/). The store lives in `src/app/store.ts` and uses `redux-persist` to retain data across sessions.
+
+### Accessibility
+UI components leverage [Radix UI](https://www.radix-ui.com/) and semantic HTML to ensure keyboard and screen reader support. Dynamic content updates announce through `aria-live` regions.
+
+### Component usage
+Employee data is displayed with the `<EmployeeTable />` component provided by an external package.
+
+## External component package
+The table component is maintained separately in [`packages/employee-table-react`](../packages/employee-table-react) and published to npm as [`employee-table-react`](https://www.npmjs.com/package/employee-table-react).
