@@ -6,7 +6,7 @@ type DatePickerProps = InputHTMLAttributes<HTMLInputElement> & {
 
   label: string
   value: string
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onChange: React.ChangeEventHandler<HTMLInputElement>
 }
 
 export default function DatePicker({ id, label, value, onChange, ...rest }: DatePickerProps) {
@@ -83,7 +83,7 @@ export default function DatePicker({ id, label, value, onChange, ...rest }: Date
       const day = selectedDay ?? 1
       setTimeout(() => focusDay(day), 0)
     }
-  }, [open, month, year])
+  }, [open, month, year, selectedDay])
 
   const handleMonthChange = (dir: number) => {
     setMonth(m => {

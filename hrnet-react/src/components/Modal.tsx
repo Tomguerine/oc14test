@@ -14,6 +14,7 @@ type ModalProps = {
   title?: ReactNode
   children: ReactNode
   open?: boolean
+    // eslint-disable-next-line no-unused-vars
   onOpenChange?: (open: boolean) => void
 }
 
