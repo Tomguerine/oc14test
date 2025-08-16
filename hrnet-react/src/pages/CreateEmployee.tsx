@@ -102,6 +102,9 @@ export default function CreateEmployee() {
     return Object.keys(newErrors).length === 0
   }
 
+  const [error, setError] = useState('')
+  const [announcement, setAnnouncement] = useState('')
+
   const handleDateOfBirthChange = (e: ChangeEvent<HTMLInputElement>) => {
     setDateOfBirth(e.target.value)
     setAnnouncement(`Date of birth set to ${e.target.value}`)
