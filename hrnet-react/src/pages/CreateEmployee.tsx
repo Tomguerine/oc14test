@@ -161,7 +161,7 @@ export default function CreateEmployee() {
 
   return (
     <>
-      <form onSubmit={handleSubmit} noValidate>
+      <form onSubmit={handleSubmit} noValidate className="space-y-4">
         <div aria-live="polite" className="sr-only">
           {announcement}
         </div>
@@ -171,7 +171,7 @@ export default function CreateEmployee() {
           </p>
         )}
 
-        <div>
+        <div className="flex flex-col gap-1">
           <label htmlFor="firstName">First Name</label>
           <input
             id="firstName"
@@ -182,13 +182,13 @@ export default function CreateEmployee() {
             aria-describedby="firstName-error"
           />
           {errors.firstName && (
-            <span id="firstName-error" role="alert">
+            <span id="firstName-error" role="alert" className="error">
               {errors.firstName}
             </span>
           )}
         </div>
 
-        <div>
+        <div className="flex flex-col gap-1">
           <label htmlFor="lastName">Last Name</label>
           <input
             id="lastName"
@@ -199,12 +199,12 @@ export default function CreateEmployee() {
             aria-describedby="lastName-error"
           />
           {errors.lastName && (
-            <span id="lastName-error" role="alert">
+            <span id="lastName-error" role="alert" className="error">
               {errors.lastName}
             </span>
           )}
         </div>
-        <div>
+        <div className="flex flex-col gap-1">
           <label htmlFor="email">Email</label>
           <input
             id="email"
@@ -216,7 +216,7 @@ export default function CreateEmployee() {
             aria-describedby="email-error"
           />
           {errors.email && (
-            <span id="email-error" role="alert">
+            <span id="email-error" role="alert" className="error">
               {errors.email}
             </span>
           )}
@@ -232,7 +232,7 @@ export default function CreateEmployee() {
         />
 
         {errors.dateOfBirth && (
-          <span id="dob-error" role="alert">
+          <span id="dob-error" role="alert" className="error">
             {errors.dateOfBirth}
           </span>
         )}
@@ -247,12 +247,12 @@ export default function CreateEmployee() {
         />
 
         {errors.startDate && (
-          <span id="startDate-error" role="alert">
+          <span id="startDate-error" role="alert" className="error">
             {errors.startDate}
           </span>
         )}
 
-        <div>
+        <div className="flex flex-col gap-1">
           <label htmlFor="street">Street</label>
           <input
             id="street"
@@ -263,13 +263,13 @@ export default function CreateEmployee() {
             aria-describedby="street-error"
           />
           {errors.street && (
-            <span id="street-error" role="alert">
+            <span id="street-error" role="alert" className="error">
               {errors.street}
             </span>
           )}
         </div>
 
-        <div>
+        <div className="flex flex-col gap-1">
           <label htmlFor="city">City</label>
           <input
             id="city"
@@ -280,7 +280,7 @@ export default function CreateEmployee() {
             aria-describedby="city-error"
           />
           {errors.city && (
-            <span id="city-error" role="alert">
+            <span id="city-error" role="alert" className="error">
               {errors.city}
             </span>
           )}
@@ -295,12 +295,12 @@ export default function CreateEmployee() {
           placeholder="Select state"
         />
         {errors.state && (
-          <span id="state-error" role="alert">
+          <span id="state-error" role="alert" className="error">
             {errors.state}
           </span>
         )}
 
-        <div>
+        <div className="flex flex-col gap-1">
           <label htmlFor="zipCode">Zip Code</label>
           <input
             id="zipCode"
@@ -313,7 +313,7 @@ export default function CreateEmployee() {
             aria-describedby="zip-error"
           />
           {errors.zipCode && (
-            <span id="zip-error" role="alert">
+            <span id="zip-error" role="alert" className="error">
               {errors.zipCode}
             </span>
           )}
@@ -328,12 +328,14 @@ export default function CreateEmployee() {
           placeholder="Select department"
         />
         {errors.department && (
-          <span id="department-error" role="alert">
+          <span id="department-error" role="alert" className="error">
             {errors.department}
           </span>
         )}
 
-        <button type="submit">Save</button>
+        <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+          Save
+        </button>
       </form>
       <Modal open={open} onOpenChange={setOpen} title="Employee Created">
         The employee has been added to the list.

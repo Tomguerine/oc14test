@@ -7,6 +7,27 @@ body {
   font-family: sans-serif;
 }
 
+label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+input,
+select {
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -21,4 +42,18 @@ body {
 
 .error {
   color: #b00020;
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+}
+
+button[type='submit'] {
+  background-color: #10b981;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  transition: background-color 0.2s;
+}
+
+button[type='submit']:hover {
+  background-color: #059669;
 }
