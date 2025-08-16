@@ -1,4 +1,5 @@
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
+import '../styles/DataTable.css'
 
 /**
  * Props for the generic {@link DataTable} component.
@@ -43,6 +44,7 @@ function DataTable<T>({ columns, data }: DataTableProps<T>) {
         </tbody>
       </table>
     </div>
+
   )
 }
 
