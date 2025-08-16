@@ -100,10 +100,9 @@ export default function CreateEmployee() {
     if (!department) newErrors.department = 'Department is required'
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
-}
+  }
 
-  const [error, setError] = useState('')
-  const [announcement, setAnnouncement] = useState('')
+
 
   const handleDateOfBirthChange = (e: ChangeEvent<HTMLInputElement>) => {
     setDateOfBirth(e.target.value)
@@ -163,14 +162,14 @@ export default function CreateEmployee() {
   return (
     <>
       <form onSubmit={handleSubmit} noValidate>
-      <div aria-live="polite" className="sr-only">
-        {announcement}
-      </div>
-      {error && (
-        <p role="alert" className="error">
-          {error}
-        </p>
-      )}
+        <div aria-live="polite" className="sr-only">
+          {announcement}
+        </div>
+        {error && (
+          <p role="alert" className="error">
+            {error}
+          </p>
+        )}
 
         <div>
           <label htmlFor="firstName">First Name</label>
