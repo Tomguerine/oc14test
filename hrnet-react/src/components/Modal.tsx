@@ -37,9 +37,14 @@ function Modal({ trigger, title, children, open, onOpenChange }: ModalProps) {
         <Dialog.Content
           role="alertdialog"
           aria-modal="true"
+          aria-labelledby="modal-title"
           className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-4 shadow-lg"
         >
-          {title && <Dialog.Title className="mb-2 font-bold">{title}</Dialog.Title>}
+          {title && (
+            <Dialog.Title id="modal-title" className="mb-2 font-bold">
+              {title}
+            </Dialog.Title>
+          )}
           <div>{children}</div>
           <Dialog.Close asChild>
             <button className="mt-4" aria-label="Close">
