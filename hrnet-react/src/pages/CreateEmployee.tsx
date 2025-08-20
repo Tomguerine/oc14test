@@ -333,7 +333,7 @@ export default function CreateEmployee() {
           </span>
         )}
 
-        <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+        <button type="submit" className="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded">
           Save
         </button>
       </form>
