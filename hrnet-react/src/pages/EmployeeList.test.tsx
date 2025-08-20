@@ -15,7 +15,7 @@ type Employee = {
   department: string
 }
 
-function renderWithData(data: Employee[]) {
+async function renderWithData(data: Employee[]) {
   const store = configureStore({
     reducer: { employees: () => ({ employees: data }) },
   })
@@ -24,10 +24,11 @@ function renderWithData(data: Employee[]) {
       <EmployeeList />
     </Provider>
   )
+  await screen.findByPlaceholderText(/search/i)
 }
 
 describe('EmployeeList table', () => {
-  it('sorts by first name', () => {
+  it('sorts by first name', async () => {
     const data = [
       {
         id: 1,
@@ -52,8 +53,8 @@ describe('EmployeeList table', () => {
         department: 'Sales',
       },
     ]
-    renderWithData(data)
-    const rows = screen.getAllByRole('row').slice(1)
+    await renderWithData(data)
+    const rows = (await screen.findAllByRole('row')).slice(1)
     expect(rows[0]).toHaveTextContent('Bob')
 
     fireEvent.click(screen.getByRole('columnheader', { name: /first name/i }))
@@ -61,7 +62,7 @@ describe('EmployeeList table', () => {
     expect(sortedRows[0]).toHaveTextContent('Alice')
   })
 
-  it('filters globally', () => {
+  it('filters globally', async () => {
     const data = [
       {
         id: 1,
@@ -86,16 +87,16 @@ describe('EmployeeList table', () => {
         department: 'Sales',
       },
     ]
-    renderWithData(data)
+    await renderWithData(data)
     fireEvent.change(screen.getByPlaceholderText(/search/i), {
       target: { value: 'Ali' },
     })
-    const rows = screen.getAllByRole('row').slice(1)
+    const rows = (await screen.findAllByRole('row')).slice(1)
     expect(rows).toHaveLength(1)
     expect(rows[0]).toHaveTextContent('Alice')
   })
 
-  it('paginates results', () => {
+  it('paginates results', async () => {
     const data = Array.from({ length: 11 }, (_, i) => ({
       id: i + 1,
       firstName: `Name${i + 1}`,
@@ -107,14 +108,14 @@ describe('EmployeeList table', () => {
       zipCode: '12345',
       department: 'Sales',
     }))
-    renderWithData(data)
-    expect(screen.getAllByRole('row').slice(1)).toHaveLength(10)
+    await renderWithData(data)
+    expect((await screen.findAllByRole('row')).slice(1)).toHaveLength(10)
     fireEvent.click(screen.getByRole('button', { name: /next/i }))
-    expect(screen.getAllByRole('row').slice(1)).toHaveLength(1)
+    expect((await screen.findAllByRole('row')).slice(1)).toHaveLength(1)
   })
 
-  it('is accessible via table role', () => {
-    renderWithData([])
+  it('is accessible via table role', async () => {
+    await renderWithData([])
     expect(screen.getByRole('table')).toBeInTheDocument()
   })
 })
