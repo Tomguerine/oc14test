@@ -7,7 +7,7 @@ vi.mock('react-redux', () => ({
   useDispatch: () => dispatch,
 }))
 
-describe.skip('CreateEmployee form', () => {
+describe('CreateEmployee form', () => {
   beforeEach(() => dispatch.mockClear())
 
   it('validates required fields before submit', () => {
@@ -20,6 +20,12 @@ describe.skip('CreateEmployee form', () => {
     })
     fireEvent.change(screen.getByLabelText(/last name/i), {
       target: { value: 'Doe' },
+    })
+    fireEvent.change(screen.getByLabelText(/date of birth/i), {
+      target: { value: '2000-01-01' },
+    })
+    fireEvent.change(screen.getByLabelText(/start date/i), {
+      target: { value: '2020-01-01' },
     })
 
     expect(form.checkValidity()).toBe(true)
@@ -35,6 +41,12 @@ describe.skip('CreateEmployee form', () => {
     })
     fireEvent.change(screen.getByLabelText(/last name/i), {
       target: { value: 'Smith' },
+    })
+    fireEvent.change(screen.getByLabelText(/date of birth/i), {
+      target: { value: '2000-01-01' },
+    })
+    fireEvent.change(screen.getByLabelText(/start date/i), {
+      target: { value: '2020-01-01' },
     })
 
     fireEvent.click(screen.getByRole('button', { name: /save/i }))

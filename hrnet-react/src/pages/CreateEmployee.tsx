@@ -1,7 +1,8 @@
-import { useEffect, useState, type ChangeEvent, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import { useDispatch } from 'react-redux'
 import Dropdown from '../components/Dropdown'
 import Modal from '../components/Modal'
+import DatePicker from '../components/DatePicker'
 import { addEmployee } from '../features/employees/employeesSlice'
 import type { AppDispatch } from '../app/store'
 
@@ -71,8 +72,8 @@ export default function CreateEmployee() {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
-  const [dateOfBirth, setDateOfBirth] = useState('')
-  const [startDate, setStartDate] = useState('')
+  const [dateOfBirth, setDateOfBirth] = useState<Date | null>(null)
+  const [startDate, setStartDate] = useState<Date | null>(null)
   const [street, setStreet] = useState('')
   const [city, setCity] = useState('')
   const [stateValue, setStateValue] = useState('')
@@ -100,18 +101,6 @@ export default function CreateEmployee() {
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
-
-
-
-  const handleDateOfBirthChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setDateOfBirth(e.target.value)
-    setAnnouncement(`Date of birth set to ${e.target.value}`)
-  }
-
-  const handleStartDateChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setStartDate(e.target.value)
-  }
-
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!validate()) return
@@ -122,13 +111,15 @@ export default function CreateEmployee() {
       return
     }
     setError('')
+    const formatDate = (d: Date | null) =>
+      d ? d.toISOString().split('T')[0] : ''
     dispatch(
       addEmployee({
         firstName,
         lastName,
         email,
-        dateOfBirth,
-        startDate,
+        dateOfBirth: formatDate(dateOfBirth),
+        startDate: formatDate(startDate),
         street,
         city,
         state: stateValue,
@@ -140,8 +131,8 @@ export default function CreateEmployee() {
     setFirstName('')
     setLastName('')
     setEmail('')
-    setDateOfBirth('')
-    setStartDate('')
+    setDateOfBirth(null)
+    setStartDate(null)
     setStreet('')
     setCity('')
     setStateValue('')
@@ -220,18 +211,22 @@ export default function CreateEmployee() {
             </span>
           )}
         </div>
-        <div className="flex flex-col gap-1">
-          <label htmlFor="dateOfBirth">Date of Birth</label>
-          <input
-            id="dateOfBirth"
-            type="date"
-            value={dateOfBirth}
-            onChange={handleDateOfBirthChange}
-            required
-            aria-invalid={errors.dateOfBirth ? 'true' : 'false'}
-            aria-describedby="dob-error"
-          />
-        </div>
+        <DatePicker
+          id="dateOfBirth"
+          label="Date of Birth"
+          selected={dateOfBirth}
+          onChange={date => {
+            setDateOfBirth(date)
+            setAnnouncement(
+              `Date of birth set to ${
+                date ? date.toISOString().split('T')[0] : ''
+              }`
+            )
+          }}
+          required
+          aria-invalid={errors.dateOfBirth ? 'true' : 'false'}
+          aria-describedby="dob-error"
+        />
 
         {errors.dateOfBirth && (
           <span id="dob-error" role="alert" className="error">
@@ -239,18 +234,15 @@ export default function CreateEmployee() {
           </span>
         )}
 
-        <div className="flex flex-col gap-1">
-          <label htmlFor="startDate">Start Date</label>
-          <input
-            id="startDate"
-            type="date"
-            value={startDate}
-            onChange={handleStartDateChange}
-            required
-            aria-invalid={errors.startDate ? 'true' : 'false'}
-            aria-describedby="startDate-error"
-          />
-        </div>
+        <DatePicker
+          id="startDate"
+          label="Start Date"
+          selected={startDate}
+          onChange={setStartDate}
+          required
+          aria-invalid={errors.startDate ? 'true' : 'false'}
+          aria-describedby="startDate-error"
+        />
 
         {errors.startDate && (
           <span id="startDate-error" role="alert" className="error">
