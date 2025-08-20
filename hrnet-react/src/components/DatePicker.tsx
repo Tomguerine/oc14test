@@ -12,9 +12,20 @@ interface DatePickerProps extends Omit<
   onChange: (date: Date | null) => void
   selectsRange?: never
   selectsMultiple?: never
+  showYearDropdown?: boolean
+  scrollableYearDropdown?: boolean
+  yearDropdownItemNumber?: number
 }
 
-export default function DatePicker({ id, label, selected, onChange, ...props }: DatePickerProps) {
+export default function DatePicker({
+  id,
+  label,
+  selected,
+  onChange,
+  showYearDropdown = true,
+  scrollableYearDropdown = true,
+  ...props
+}: DatePickerProps) {
   const Picker = ReactDatePicker as any
   return (
     <div className="flex flex-col gap-1">
@@ -24,6 +35,8 @@ export default function DatePicker({ id, label, selected, onChange, ...props }: 
         selected={selected}
         onChange={onChange}
         dateFormat="yyyy-MM-dd"
+        showYearDropdown={showYearDropdown}
+        scrollableYearDropdown={scrollableYearDropdown}
         {...props}
       />
     </div>
