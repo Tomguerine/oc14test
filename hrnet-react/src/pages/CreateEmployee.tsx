@@ -1,6 +1,5 @@
 import { useEffect, useState, type ChangeEvent, type FormEvent } from 'react'
 import { useDispatch } from 'react-redux'
-import DatePicker from '../components/DatePicker'
 import Dropdown from '../components/Dropdown'
 import Modal from '../components/Modal'
 import { addEmployee } from '../features/employees/employeesSlice'
@@ -221,30 +220,37 @@ export default function CreateEmployee() {
             </span>
           )}
         </div>
-        <DatePicker
-          id="dateOfBirth"
-          label="Date of Birth"
-          value={dateOfBirth}
-          onChange={handleDateOfBirthChange}
-          required
-          aria-invalid={errors.dateOfBirth ? 'true' : 'false'}
-          aria-describedby="dob-error"
-        />
+        <div className="flex flex-col gap-1">
+          <label htmlFor="dateOfBirth">Date of Birth</label>
+          <input
+            id="dateOfBirth"
+            type="date"
+            value={dateOfBirth}
+            onChange={handleDateOfBirthChange}
+            required
+            aria-invalid={errors.dateOfBirth ? 'true' : 'false'}
+            aria-describedby="dob-error"
+          />
+        </div>
 
         {errors.dateOfBirth && (
           <span id="dob-error" role="alert" className="error">
             {errors.dateOfBirth}
           </span>
         )}
-        <DatePicker
-          id="startDate"
-          label="Start Date"
-          value={startDate}
-          onChange={handleStartDateChange}
-          required
-          aria-invalid={errors.startDate ? 'true' : 'false'}
-          aria-describedby="startDate-error"
-        />
+
+        <div className="flex flex-col gap-1">
+          <label htmlFor="startDate">Start Date</label>
+          <input
+            id="startDate"
+            type="date"
+            value={startDate}
+            onChange={handleStartDateChange}
+            required
+            aria-invalid={errors.startDate ? 'true' : 'false'}
+            aria-describedby="startDate-error"
+          />
+        </div>
 
         {errors.startDate && (
           <span id="startDate-error" role="alert" className="error">
