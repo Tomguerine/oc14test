@@ -1,19 +1,25 @@
 import ReactDatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import type { ReactDatePickerProps } from 'react-datepicker'
+import type { DatePickerProps as ReactDatePickerBaseProps } from 'react-datepicker'
 
-interface DatePickerProps extends Omit<ReactDatePickerProps, 'selected' | 'onChange' | 'id'> {
+interface DatePickerProps extends Omit<
+  ReactDatePickerBaseProps,
+  'selected' | 'onChange' | 'id' | 'selectsRange' | 'selectsMultiple'
+> {
   id: string
   label: string
   selected: Date | null
   onChange: (date: Date | null) => void
+  selectsRange?: never
+  selectsMultiple?: never
 }
 
 export default function DatePicker({ id, label, selected, onChange, ...props }: DatePickerProps) {
+  const Picker = ReactDatePicker as any
   return (
     <div className="flex flex-col gap-1">
       <label htmlFor={id}>{label}</label>
-      <ReactDatePicker
+      <Picker
         id={id}
         selected={selected}
         onChange={onChange}

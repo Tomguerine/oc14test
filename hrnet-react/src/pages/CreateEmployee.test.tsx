@@ -12,7 +12,7 @@ describe('CreateEmployee form', () => {
 
   it('validates required fields before submit', () => {
     render(<CreateEmployee />)
-    const form = screen.getByRole('form')
+    const form = screen.getByRole('form') as HTMLFormElement
     expect(form.checkValidity()).toBe(false)
 
     fireEvent.change(screen.getByLabelText(/first name/i), {
