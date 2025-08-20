@@ -1,6 +1,6 @@
-import { useMemo } from 'react'
+import React, { useMemo, Suspense } from 'react'
 import { useSelector } from 'react-redux'
-import { DataTable } from '../components'
+const DataTable = React.lazy(() => import('../components/DataTable'))
 import type { RootState } from '../app/store'
 import type { Employee } from '../features/employees/employeesSlice'
 
@@ -18,6 +18,10 @@ export default function EmployeeList() {
     [],
   )
 
-  return <DataTable columns={columns} data={data as Employee[]} />
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <DataTable columns={columns} data={data as Employee[]} />
+    </Suspense>
+  )
 }
 
