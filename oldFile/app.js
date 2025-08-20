@@ -10,14 +10,25 @@ $( function() {
     $( "#department" ).selectmenu();
     $( "#state" ).selectmenu();
 
+    function fixAria(_, $input) {
+        $input.find('td button[aria-selected]').each(function () {
+            const $btn = $(this)
+            const selected = $btn.attr('aria-selected')
+            $btn.removeAttr('aria-selected')
+            $btn.attr('role', 'gridcell')
+            $btn.closest('td').attr('aria-selected', selected)
+        })
+    }
     $('#date-of-birth').datetimepicker({
         timepicker: false,
-        format: 'm/d/Y'
-    });
+        format: 'm/d/Y',
+        onGenerate: fixAria
+    })
     $('#start-date').datetimepicker({
         timepicker: false,
-        format: 'm/d/Y'
-    });
+        format: 'm/d/Y',
+        onGenerate: fixAria
+    })
 });
 
 function saveEmployee() {
