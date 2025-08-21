@@ -5,7 +5,7 @@ import {
   type ColumnDef,
 } from '@tanstack/react-table'
 
-interface DataTableProps<TData> {
+export interface DataTableProps<TData> {
   columns: ColumnDef<TData, any>[]
   data: TData[]
 }
