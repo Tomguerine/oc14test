@@ -9,7 +9,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { format } from 'date-fns'
+import format from 'date-fns/format'
 
 // Employee representation
 interface Employee {
