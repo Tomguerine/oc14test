@@ -41,6 +41,10 @@ export default function CurrentEmployees() {
   const rowHeight = 40
   const overscan = 5
   const viewportHeight = 400
+  const [filteredData, setFilteredData] = useState<Employee[]>([])
+  const [virtualRows, setVirtualRows] = useState<Employee[]>([])
+  const [paddingTop, setPaddingTop] = useState(0)
+  const [paddingBottom, setPaddingBottom] = useState(0)
 
   useEffect(() => {
     try {
@@ -85,29 +89,45 @@ export default function CurrentEmployees() {
     [],
   )
 
-  const filteredData = useMemo(() => {
-    if (!globalFilter) return data
-    const lower = globalFilter.toLowerCase()
-    return data.filter(emp =>
-      Object.values(emp).some(val =>
-        String(val).toLowerCase().includes(lower),
-      ),
-    )
-  }, [data, globalFilter])
+  useEffect(() => {
+    const recalc = () => {
+      const lower = globalFilter.toLowerCase()
+      const filtered = globalFilter
+        ? data.filter(emp =>
+            Object.values(emp).some(val =>
+              String(val).toLowerCase().includes(lower),
+            ),
+          )
+        : data
+      setFilteredData(filtered)
+      const total = filtered.length
+      const start = Math.max(0, Math.floor(scrollTop / rowHeight) - overscan)
+      const end = Math.min(
+        total,
+        start + Math.ceil(viewportHeight / rowHeight) + overscan,
+      )
+      setVirtualRows(filtered.slice(start, end))
+      setPaddingTop(start * rowHeight)
+      setPaddingBottom((total - end) * rowHeight)
+    }
 
-  const totalRows = filteredData.length
-  const startIndex = Math.max(0, Math.floor(scrollTop / rowHeight) - overscan)
-  const endIndex = Math.min(
-    totalRows,
-    startIndex + Math.ceil(viewportHeight / rowHeight) + overscan,
-  )
-  const virtualRows = filteredData.slice(startIndex, endIndex)
-  const paddingTop = startIndex * rowHeight
-  const paddingBottom = (totalRows - endIndex) * rowHeight
+    const id = (window as any).requestIdleCallback
+      ? (window as any).requestIdleCallback(recalc)
+      : window.setTimeout(recalc, 0)
+    return () => {
+      if ((window as any).cancelIdleCallback)
+        (window as any).cancelIdleCallback(id)
+      else clearTimeout(id)
+    }
+  }, [data, globalFilter, scrollTop])
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     setScrollTop(e.currentTarget.scrollTop)
   }
+
+  const rows = filteredData.length ? virtualRows : data
+  const topPad = filteredData.length ? paddingTop : 0
+  const bottomPad = filteredData.length ? paddingBottom : 0
 
   if (status === 'loading') return <p>Loading...</p>
   if (status === 'error') return <p role="alert">Error loading employees.</p>
@@ -156,12 +176,12 @@ export default function CurrentEmployees() {
               </tr>
             </thead>
             <tbody>
-              {paddingTop > 0 && (
+              {topPad > 0 && (
                 <tr>
-                  <td style={{ height: paddingTop }} colSpan={columns.length} />
+                  <td style={{ height: topPad }} colSpan={columns.length} />
                 </tr>
               )}
-              {virtualRows.map(emp => (
+              {rows.map(emp => (
                 <tr key={emp.id} role="row" className="odd:bg-gray-100">
                   {columns.map(col => (
                     <td key={col.key} role="cell" className="px-4 py-2">
@@ -172,9 +192,9 @@ export default function CurrentEmployees() {
                   ))}
                 </tr>
               ))}
-              {paddingBottom > 0 && (
+              {bottomPad > 0 && (
                 <tr>
-                  <td style={{ height: paddingBottom }} colSpan={columns.length} />
+                  <td style={{ height: bottomPad }} colSpan={columns.length} />
                 </tr>
               )}
             </tbody>
