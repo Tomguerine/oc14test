@@ -5,8 +5,12 @@ import type { RootState } from '../app/store'
 import type { Employee } from '../features/employees/employeesSlice'
 import { seedEmployees } from '../features/employees/seedData'
 import type { ColumnDef } from '@tanstack/react-table'
+import type { DataTableProps } from '../components/DataTable'
 
 const DataTable = lazy(() => import('../components/DataTable'))
+  as React.LazyExoticComponent<
+    React.ComponentType<DataTableProps<Employee>>
+  >
 
 
 export default function EmployeeList() {
@@ -40,7 +44,7 @@ export default function EmployeeList() {
       </h2>
       <div className="max-w-3xl mx-auto bg-white shadow rounded p-6">
         <Suspense fallback={<div>Loading...</div>}>
-          <DataTable columns={columns} data={data as Employee[]} />
+          <DataTable columns={columns} data={data} />
         </Suspense>
       </div>
       <div className="mt-4 text-center space-x-4">
