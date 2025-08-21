@@ -23,6 +23,10 @@ export default function EmployeeList() {
       { header: 'Department', accessor: 'department' },
       { header: 'Start Date', accessor: 'startDate' },
       { header: 'Date of Birth', accessor: 'dateOfBirth' },
+      { header: 'Street', accessor: 'street' },
+      { header: 'City', accessor: 'city' },
+      { header: 'State', accessor: 'state' },
+      { header: 'Zip Code', accessor: 'zipCode' },
     ],
     [],
   )

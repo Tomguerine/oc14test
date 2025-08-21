@@ -136,4 +136,24 @@ describe('EmployeeList layout', () => {
       screen.getByRole('link', { name: /create employee/i }),
     ).toHaveAttribute('href', '/')
   })
+
+  it('displays all column headers', async () => {
+    await renderWithData([])
+    const headers = [
+      'First Name',
+      'Last Name',
+      'Department',
+      'Start Date',
+      'Date of Birth',
+      'Street',
+      'City',
+      'State',
+      'Zip Code',
+    ]
+    headers.forEach((header) => {
+      expect(
+        screen.getByRole('columnheader', { name: new RegExp(header, 'i') }),
+      ).toBeInTheDocument()
+    })
+  })
 })
