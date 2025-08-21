@@ -39,7 +39,7 @@ function Modal({
   return (
     <Dialog.Root
       open={open}
-      onOpenChange={o => {
+      onOpenChange={(o: boolean) => {
         onOpenChange?.(o)
         setLive(o ? 'Dialog opened' : 'Dialog closed')
       }}
