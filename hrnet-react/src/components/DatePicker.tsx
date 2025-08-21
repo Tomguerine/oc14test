@@ -38,6 +38,7 @@ export default function DatePicker({
         showYearDropdown={showYearDropdown}
         scrollableYearDropdown={scrollableYearDropdown}
         {...props}
+        maxDate={new Date()}
       />
     </div>
   )

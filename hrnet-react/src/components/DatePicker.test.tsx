@@ -40,3 +40,27 @@ test('shows year dropdown and handles year selection', () => {
 
   expect(handleChange).toHaveBeenCalled()
 })
+
+test('prevents selecting dates after today', () => {
+  vi.useFakeTimers()
+  const today = new Date('2025-08-15')
+  vi.setSystemTime(today)
+  const handleChange = vi.fn()
+  const { container } = render(
+    <DatePicker
+      id="future-date"
+      label="Future Date"
+      selected={today}
+      onChange={handleChange}
+    />
+  )
+  const input = screen.getByLabelText(/future date/i)
+  fireEvent.click(input)
+  const futureDay = container.querySelector(
+    '.react-datepicker__day--016:not(.react-datepicker__day--outside-month)'
+  ) as HTMLElement
+  expect(futureDay).toHaveClass('react-datepicker__day--disabled')
+  fireEvent.click(futureDay)
+  expect(handleChange).not.toHaveBeenCalled()
+  vi.useRealTimers()
+})
