@@ -152,8 +152,12 @@ export default function CreateEmployee() {
 
   return (
     <>
-      <Link to="/employees">View Current Employees</Link>
       <div className="max-w-lg mx-auto bg-white shadow rounded p-6 space-y-4">
+        <div className="text-center mb-4">
+          <h1 className="text-3xl font-bold">HRnet</h1>
+          <Link to="/employees" className="text-lg block">View Current Employees</Link>
+          <h2 className="text-2xl font-semibold mt-2">Create Employee</h2>
+        </div>
         <form onSubmit={handleSubmit} noValidate className="space-y-4">
           <div aria-live="polite" className="sr-only">
             {announcement}
