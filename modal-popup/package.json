@@ -1,6 +1,9 @@
 {
   "name": "modal-popup",
   "version": "1.0.0",
+  "description": "Reusable React modal popup component",
+  "keywords": ["modal", "popup", "dialog", "react"],
+  "author": "Tom Guerineau",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
