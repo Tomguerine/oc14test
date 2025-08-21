@@ -1,9 +1,12 @@
-import React, { useMemo, Suspense } from 'react'
+import React, { useMemo, Suspense, lazy } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import type { RootState } from '../app/store'
 import type { Employee } from '../features/employees/employeesSlice'
 import { seedEmployees } from '../features/employees/seedData'
+import type { ColumnDef } from '@tanstack/react-table'
+
+const DataTable = lazy(() => import('../components/DataTable'))
 
 
 export default function EmployeeList() {
@@ -15,17 +18,17 @@ export default function EmployeeList() {
     window.location.reload()
   }
 
-  const columns = useMemo(
+  const columns = useMemo<ColumnDef<Employee>[]>(
     () => [
-      { header: 'First Name', accessor: 'firstName' },
-      { header: 'Last Name', accessor: 'lastName' },
-      { header: 'Department', accessor: 'department' },
-      { header: 'Start Date', accessor: 'startDate' },
-      { header: 'Date of Birth', accessor: 'dateOfBirth' },
-      { header: 'Street', accessor: 'street' },
-      { header: 'City', accessor: 'city' },
-      { header: 'State', accessor: 'state' },
-      { header: 'Zip Code', accessor: 'zipCode' },
+      { header: 'First Name', accessorKey: 'firstName' },
+      { header: 'Last Name', accessorKey: 'lastName' },
+      { header: 'Department', accessorKey: 'department' },
+      { header: 'Start Date', accessorKey: 'startDate' },
+      { header: 'Date of Birth', accessorKey: 'dateOfBirth' },
+      { header: 'Street', accessorKey: 'street' },
+      { header: 'City', accessorKey: 'city' },
+      { header: 'State', accessorKey: 'state' },
+      { header: 'Zip Code', accessorKey: 'zipCode' },
     ],
     [],
   )
