@@ -1,18 +1,8 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import {
-  type ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from '@tanstack/react-table'
 import { format } from 'date-fns'
 import { seedEmployees } from '../features/employees/seedData'
 
-// Employee representation
 interface Employee {
   id: string
   firstName: string
@@ -46,6 +36,11 @@ export default function CurrentEmployees() {
   const [searchInput, setSearchInput] = useState('')
   const debouncedSearch = useDebounce(searchInput, 300)
   const [globalFilter, setGlobalFilter] = useState('')
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [scrollTop, setScrollTop] = useState(0)
+  const rowHeight = 40
+  const overscan = 5
+  const viewportHeight = 400
 
   useEffect(() => {
     try {
@@ -69,74 +64,53 @@ export default function CurrentEmployees() {
     setGlobalFilter(debouncedSearch)
   }, [debouncedSearch])
 
-  const columns = useMemo<ColumnDef<Employee>[]>(
+  const columns = useMemo(
     () => [
+      { key: 'firstName', header: 'First Name' },
+      { key: 'lastName', header: 'Last Name' },
+      { key: 'department', header: 'Department' },
       {
-        accessorKey: 'firstName',
-        header: ({ column }) => (
-          <button type="button" onClick={column.getToggleSortingHandler()}>
-            First Name{column.getIsSorted() === 'asc' ? ' \u25B2' : column.getIsSorted() === 'desc' ? ' \u25BC' : ''}
-          </button>
-        ),
+        key: 'startDate',
+        header: 'Start Date',
+        format: (value: string | undefined) =>
+          value ? format(new Date(value), 'dd/MM/yyyy') : '',
       },
       {
-        accessorKey: 'lastName',
-        header: ({ column }) => (
-          <button type="button" onClick={column.getToggleSortingHandler()}>
-            Last Name{column.getIsSorted() === 'asc' ? ' \u25B2' : column.getIsSorted() === 'desc' ? ' \u25BC' : ''}
-          </button>
-        ),
-      },
-      {
-        accessorKey: 'department',
-        header: ({ column }) => (
-          <button type="button" onClick={column.getToggleSortingHandler()}>
-            Department{column.getIsSorted() === 'asc' ? ' \u25B2' : column.getIsSorted() === 'desc' ? ' \u25BC' : ''}
-          </button>
-        ),
-      },
-      {
-        accessorKey: 'startDate',
-        header: ({ column }) => (
-          <button type="button" onClick={column.getToggleSortingHandler()}>
-            Start Date{column.getIsSorted() === 'asc' ? ' \u25B2' : column.getIsSorted() === 'desc' ? ' \u25BC' : ''}
-          </button>
-        ),
-        cell: info =>
-          info.getValue<string>()
-            ? format(new Date(info.getValue<string>()), 'dd/MM/yyyy')
-            : '',
-      },
-      {
-        accessorKey: 'dateOfBirth',
-        header: ({ column }) => (
-          <button type="button" onClick={column.getToggleSortingHandler()}>
-            Date of Birth{column.getIsSorted() === 'asc' ? ' \u25B2' : column.getIsSorted() === 'desc' ? ' \u25BC' : ''}
-          </button>
-        ),
-        cell: info =>
-          info.getValue<string>()
-            ? format(new Date(info.getValue<string>()), 'dd/MM/yyyy')
-            : '',
+        key: 'dateOfBirth',
+        header: 'Date of Birth',
+        format: (value: string | undefined) =>
+          value ? format(new Date(value), 'dd/MM/yyyy') : '',
       },
     ],
     [],
   )
 
-  const table = useReactTable({
-    data,
-    columns,
-    state: { globalFilter },
-    onGlobalFilterChange: setGlobalFilter,
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-  })
+  const filteredData = useMemo(() => {
+    if (!globalFilter) return data
+    const lower = globalFilter.toLowerCase()
+    return data.filter(emp =>
+      Object.values(emp).some(val =>
+        String(val).toLowerCase().includes(lower),
+      ),
+    )
+  }, [data, globalFilter])
+
+  const totalRows = filteredData.length
+  const startIndex = Math.max(0, Math.floor(scrollTop / rowHeight) - overscan)
+  const endIndex = Math.min(
+    totalRows,
+    startIndex + Math.ceil(viewportHeight / rowHeight) + overscan,
+  )
+  const virtualRows = filteredData.slice(startIndex, endIndex)
+  const paddingTop = startIndex * rowHeight
+  const paddingBottom = (totalRows - endIndex) * rowHeight
+
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    setScrollTop(e.currentTarget.scrollTop)
+  }
 
   if (status === 'loading') return <p>Loading...</p>
-  if (status === 'error')
-    return <p role="alert">Error loading employees.</p>
+  if (status === 'error') return <p role="alert">Error loading employees.</p>
   if (status === 'empty')
     return (
       <div className="text-center space-y-4">
@@ -159,78 +133,52 @@ export default function CurrentEmployees() {
             aria-label="Search employees"
             className="border p-2"
           />
-          <div className="flex items-center gap-2">
-            <span>Show</span>
-            <select
-              value={table.getState().pagination.pageSize}
-              onChange={e => table.setPageSize(Number(e.target.value))}
-              className="border p-2"
-            >
-              {[5, 10, 20].map(pageSize => (
-                <option key={pageSize} value={pageSize}>
-                  {pageSize}
-                </option>
-              ))}
-            </select>
-            <span>entries</span>
-          </div>
         </div>
-        <div className="overflow-x-auto">
+        <div
+          className="overflow-auto max-h-96"
+          ref={containerRef}
+          onScroll={handleScroll}
+          style={{ height: `${viewportHeight}px` }}
+        >
           <table className="min-w-full" role="table">
             <thead>
-              {table.getHeaderGroups().map(headerGroup => (
-                <tr key={headerGroup.id} role="row">
-                  {headerGroup.headers.map(header => (
-                    <th
-                      key={header.id}
-                      role="columnheader"
-                      scope="col"
-                      className="px-4 py-2 text-left"
-                    >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
-                    </th>
-                  ))}
-                </tr>
-              ))}
+              <tr role="row">
+                {columns.map(col => (
+                  <th
+                    key={col.key}
+                    role="columnheader"
+                    scope="col"
+                    className="px-4 py-2 text-left"
+                  >
+                    {col.header}
+                  </th>
+                ))}
+              </tr>
             </thead>
             <tbody>
-              {table.getRowModel().rows.map(row => (
-                <tr key={row.id} role="row" className="odd:bg-gray-100">
-                  {row.getVisibleCells().map(cell => (
-                    <td key={cell.id} role="cell" className="px-4 py-2">
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+              {paddingTop > 0 && (
+                <tr>
+                  <td style={{ height: paddingTop }} colSpan={columns.length} />
+                </tr>
+              )}
+              {virtualRows.map(emp => (
+                <tr key={emp.id} role="row" className="odd:bg-gray-100">
+                  {columns.map(col => (
+                    <td key={col.key} role="cell" className="px-4 py-2">
+                      {col.format
+                        ? col.format(emp[col.key as keyof Employee] as string)
+                        : (emp[col.key as keyof Employee] as string)}
                     </td>
                   ))}
                 </tr>
               ))}
+              {paddingBottom > 0 && (
+                <tr>
+                  <td style={{ height: paddingBottom }} colSpan={columns.length} />
+                </tr>
+              )}
             </tbody>
           </table>
-        </div>
-        <div className="flex justify-between items-center">
-          <button
-            type="button"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-            className="border p-2"
-          >
-            Previous
-          </button>
-          <span>
-            Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
-          </span>
-          <button
-            type="button"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-            className="border p-2"
-          >
-            Next
-          </button>
         </div>
       </div>
       <div className="mt-4 text-center">
@@ -239,4 +187,3 @@ export default function CurrentEmployees() {
     </>
   )
 }
-
