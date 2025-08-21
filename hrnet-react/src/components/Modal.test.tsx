@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import Modal from './Modal'
+import Modal from 'modal-pop-up-tom'
 
 describe('Modal accessibility', () => {
   it('is announced using its title', async () => {
