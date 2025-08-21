@@ -43,6 +43,21 @@ export default function CurrentEmployees() {
   const viewportHeight = 400
 
   useEffect(() => {
+    let cancelled = false
+
+    const parseAndSet = (stored: string) => {
+      try {
+        const parsed: Employee[] = JSON.parse(stored)
+        if (!cancelled) {
+          setData(parsed)
+          setStatus(parsed.length ? 'ready' : 'empty')
+        }
+      } catch (e) {
+        console.error(e)
+        if (!cancelled) setStatus('error')
+      }
+    }
+
     try {
       const stored = localStorage.getItem(STORAGE_KEY)
       if (!stored) {
@@ -50,13 +65,20 @@ export default function CurrentEmployees() {
         setData(seedEmployees)
         setStatus('ready')
       } else {
-        const parsed: Employee[] = JSON.parse(stored)
-        setData(parsed)
-        setStatus(parsed.length ? 'ready' : 'empty')
+        const scheduleParse = () => parseAndSet(stored)
+        if ('requestIdleCallback' in window) {
+          ;(window as any).requestIdleCallback(scheduleParse)
+        } else {
+          setTimeout(scheduleParse, 0)
+        }
       }
     } catch (e) {
       console.error(e)
       setStatus('error')
+    }
+
+    return () => {
+      cancelled = true
     }
   }, [])
 
