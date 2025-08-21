@@ -1,5 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
 import Dropdown from '../components/Dropdown'
 import Modal from '../components/Modal'
 import DatePicker from '../components/DatePicker'
@@ -151,15 +152,17 @@ export default function CreateEmployee() {
 
   return (
     <>
-      <form onSubmit={handleSubmit} noValidate className="space-y-4">
-        <div aria-live="polite" className="sr-only">
-          {announcement}
-        </div>
-        {error && (
-          <p role="alert" className="error">
-            {error}
-          </p>
-        )}
+      <Link to="/employees">View Current Employees</Link>
+      <div className="max-w-lg mx-auto bg-white shadow rounded p-6 space-y-4">
+        <form onSubmit={handleSubmit} noValidate className="space-y-4">
+          <div aria-live="polite" className="sr-only">
+            {announcement}
+          </div>
+          {error && (
+            <p role="alert" className="error">
+              {error}
+            </p>
+          )}
 
         <div className="flex flex-col gap-1">
           <label htmlFor="firstName">First Name</label>
@@ -334,7 +337,8 @@ export default function CreateEmployee() {
         <button type="submit" className="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded">
           Save
         </button>
-      </form>
+        </form>
+      </div>
       <Modal open={open} onOpenChange={setOpen} title="Employee Created">
         The employee has been added to the list.
       </Modal>

@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import CreateEmployee from './CreateEmployee'
 import { vi } from 'vitest'
+import { BrowserRouter } from 'react-router-dom'
 
 const dispatch = vi.fn()
 vi.mock('react-redux', () => ({
@@ -11,7 +12,11 @@ describe.skip('CreateEmployee form', () => {
   beforeEach(() => dispatch.mockClear())
 
   it('validates required fields before submit', () => {
-    render(<CreateEmployee />)
+    render(
+      <BrowserRouter>
+        <CreateEmployee />
+      </BrowserRouter>
+    )
     const form = screen.getByRole('form') as HTMLFormElement
     expect(form.checkValidity()).toBe(false)
 
@@ -20,6 +25,9 @@ describe.skip('CreateEmployee form', () => {
     })
     fireEvent.change(screen.getByLabelText(/last name/i), {
       target: { value: 'Doe' },
+    })
+    fireEvent.change(screen.getByLabelText(/email/i), {
+      target: { value: 'john@example.com' },
     })
     fireEvent.change(screen.getByLabelText(/date of birth/i), {
       target: { value: '2000-01-01' },
@@ -33,14 +41,22 @@ describe.skip('CreateEmployee form', () => {
     expect(dispatch).toHaveBeenCalled()
   })
 
-  it.skip('shows confirmation dialog on successful submit', async () => {
-    render(<CreateEmployee />)
+  it('shows confirmation dialog on successful submit', async () => {
+    render(
+      <BrowserRouter>
+        <CreateEmployee />
+      </BrowserRouter>
+    )
+
 
     fireEvent.change(screen.getByLabelText(/first name/i), {
       target: { value: 'Jane' },
     })
     fireEvent.change(screen.getByLabelText(/last name/i), {
       target: { value: 'Smith' },
+    })
+    fireEvent.change(screen.getByLabelText(/email/i), {
+      target: { value: 'jane@example.com' },
     })
     fireEvent.change(screen.getByLabelText(/date of birth/i), {
       target: { value: '2000-01-01' },
