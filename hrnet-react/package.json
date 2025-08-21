@@ -25,9 +25,7 @@
     "react-router-dom": "^7.8.0",
     "redux-persist": "^6.0.0",
     "@tanstack/react-table": "latest",
-    "lucide-react": "latest",
-    "date-fns": "latest",
-    "shadcn-ui": "latest"
+    "date-fns": "latest"
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
