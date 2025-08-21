@@ -2,7 +2,7 @@ import { useEffect, useState, type FormEvent } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Dropdown from '../components/Dropdown'
-import Modal from '../components/Modal'
+import { Modal } from '@/components'
 import DatePicker from '../components/DatePicker'
 import { addEmployee } from '../features/employees/employeesSlice'
 import type { AppDispatch } from '../app/store'
@@ -349,12 +349,14 @@ export default function CreateEmployee() {
         </form>
       </div>
       <Modal
-        open={open}
+        open={open && Boolean(createdEmployee?.firstName && createdEmployee?.lastName)}
         onOpenChange={o => {
           setOpen(o)
           if (!o) setCreatedEmployee(null)
         }}
         title="Employee Created"
+        firstName={createdEmployee?.firstName}
+        lastName={createdEmployee?.lastName}
       >
         {createdEmployee
           ? `${createdEmployee.firstName} ${createdEmployee.lastName} a été ajouté(e)`
