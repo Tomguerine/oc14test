@@ -94,19 +94,23 @@ export default function CurrentEmployees() {
     () => [
       { key: 'firstName', header: 'First Name' },
       { key: 'lastName', header: 'Last Name' },
-      { key: 'department', header: 'Department' },
       {
         key: 'startDate',
         header: 'Start Date',
         format: (value: string | undefined) =>
           value ? format(new Date(value), 'dd/MM/yyyy') : '',
       },
+      { key: 'department', header: 'Department' },
       {
         key: 'dateOfBirth',
         header: 'Date of Birth',
         format: (value: string | undefined) =>
           value ? format(new Date(value), 'dd/MM/yyyy') : '',
       },
+      { key: 'street', header: 'Street' },
+      { key: 'city', header: 'City' },
+      { key: 'state', header: 'State' },
+      { key: 'zipCode', header: 'Zip Code' },
     ],
     [],
   )
