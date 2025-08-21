@@ -10,6 +10,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 import { format } from 'date-fns'
+import { seedEmployees } from '../features/employees/seedData'
 
 // Employee representation
 interface Employee {
@@ -27,48 +28,6 @@ interface Employee {
 }
 
 const STORAGE_KEY = 'employees:v1'
-
-const seedEmployees: Employee[] = [
-  {
-    id: '1',
-    firstName: 'Jane',
-    lastName: 'Doe',
-    email: 'jane.doe@example.com',
-    street: '123 Elm St',
-    city: 'Springfield',
-    state: 'IL',
-    zipCode: '62704',
-    department: 'Sales',
-    startDate: '2020-01-01',
-    dateOfBirth: '1990-01-01',
-  },
-  {
-    id: '2',
-    firstName: 'John',
-    lastName: 'Smith',
-    email: 'john.smith@example.com',
-    street: '456 Oak Ave',
-    city: 'Shelbyville',
-    state: 'IL',
-    zipCode: '62565',
-    department: 'Engineering',
-    startDate: '2019-03-15',
-    dateOfBirth: '1988-07-22',
-  },
-  {
-    id: '3',
-    firstName: 'Alice',
-    lastName: 'Brown',
-    email: 'alice.brown@example.com',
-    street: '789 Pine Rd',
-    city: 'Capital City',
-    state: 'IL',
-    zipCode: '62701',
-    department: 'Human Resources',
-    startDate: '2021-06-20',
-    dateOfBirth: '1992-11-05',
-  },
-]
 
 function useDebounce<T>(value: T, delay: number): T {
   const [debounced, setDebounced] = useState(value)
