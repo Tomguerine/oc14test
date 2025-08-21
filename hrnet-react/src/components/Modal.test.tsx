@@ -1,12 +1,17 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import Modal from './Modal'
+import Modal from 'modal-pop-up-tom'
 
 describe('Modal accessibility', () => {
   it('is announced using its title', async () => {
     const user = userEvent.setup()
     render(
-      <Modal trigger={<button>Open</button>} title="My dialog">
+      <Modal
+        trigger={<button>Open</button>}
+        title="My dialog"
+        firstName="Jane"
+        lastName="Doe"
+      >
         Content
       </Modal>
     )
@@ -16,6 +21,7 @@ describe('Modal accessibility', () => {
     expect(
       await screen.findByRole('alertdialog', { name: 'My dialog' })
     ).toBeInTheDocument()
+    expect(await screen.findByText('Jane Doe')).toBeInTheDocument()
   })
 })
 
