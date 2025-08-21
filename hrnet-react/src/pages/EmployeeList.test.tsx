@@ -2,6 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { configureStore } from '@reduxjs/toolkit'
 import EmployeeList from './EmployeeList'
+import { MemoryRouter } from 'react-router-dom'
 
 type Employee = {
   id: number
@@ -21,10 +22,12 @@ async function renderWithData(data: Employee[]) {
   })
   render(
     <Provider store={store}>
-      <EmployeeList />
+      <MemoryRouter>
+        <EmployeeList />
+      </MemoryRouter>
     </Provider>
   )
-  await screen.findByPlaceholderText(/search/i)
+  await screen.findByRole('table')
 }
 
 describe.skip('EmployeeList table', () => {
@@ -117,5 +120,20 @@ describe.skip('EmployeeList table', () => {
   it('is accessible via table role', async () => {
     await renderWithData([])
     expect(screen.getByRole('table')).toBeInTheDocument()
+  })
+})
+
+describe('EmployeeList layout', () => {
+  it('shows heading and navigation link', async () => {
+    await renderWithData([])
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: /current employees/i,
+      }),
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('link', { name: /create employee/i }),
+    ).toHaveAttribute('href', '/')
   })
 })
