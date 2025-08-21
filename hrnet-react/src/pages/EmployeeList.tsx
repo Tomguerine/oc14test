@@ -1,7 +1,6 @@
 import React, { useMemo, Suspense } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-const DataTable = React.lazy(() => import('../components/DataTable'))
 import type { RootState } from '../app/store'
 import type { Employee } from '../features/employees/employeesSlice'
 
