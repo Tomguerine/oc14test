@@ -24,12 +24,21 @@ import Modal from 'modal-popup'
 
 function App() {
   return (
-    <Modal trigger={<button>Ouvrir</button>} title="Titre de la modale">
+    <Modal
+      trigger={<button>Ouvrir</button>}
+      title="Titre de la modale"
+      firstName="Jean"
+      lastName="Dupont"
+    >
       Contenu de la modale
     </Modal>
   )
 }
 ```
+
+### Props
+
+- `firstName` et `lastName` (facultatifs) : affichent le nom complet dans le contenu. Si l'un des deux manque, la modale ne s'affiche pas.
 
 ## Page du paquet
 
