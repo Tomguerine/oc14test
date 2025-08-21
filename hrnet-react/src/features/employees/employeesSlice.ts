@@ -32,7 +32,9 @@ export interface EmployeesState {
   employees: Employee[]
 }
 
-const storedEmployees = localStorage.getItem('employees')
+const STORAGE_KEY = 'employees:v1'
+
+const storedEmployees = localStorage.getItem(STORAGE_KEY)
 const initialState: EmployeesState = {
   employees: storedEmployees ? JSON.parse(storedEmployees) : [],
 }
@@ -44,7 +46,7 @@ const employeesSlice = createSlice({
     addEmployee: (state, action: PayloadAction<Omit<Employee, 'id'>>) => {
       const newEmployee: Employee = { id: crypto.randomUUID(), ...action.payload }
       state.employees.push(newEmployee)
-      localStorage.setItem('employees', JSON.stringify(state.employees))
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state.employees))
     },
   },
 })
