@@ -1,5 +1,6 @@
 import React, { useMemo, Suspense } from 'react'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 const DataTable = React.lazy(() => import('../components/DataTable'))
 import type { RootState } from '../app/store'
 import type { Employee } from '../features/employees/employeesSlice'
@@ -19,9 +20,19 @@ export default function EmployeeList() {
   )
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <DataTable columns={columns} data={data as Employee[]} />
-    </Suspense>
+    <>
+      <h2 className="text-xl font-semibold text-center mb-4">
+        Current Employees
+      </h2>
+      <div className="max-w-3xl mx-auto bg-white shadow rounded p-6">
+        <Suspense fallback={<div>Loading...</div>}>
+          <DataTable columns={columns} data={data as Employee[]} />
+        </Suspense>
+      </div>
+      <div className="mt-4 text-center">
+        <Link to="/">Create Employee</Link>
+      </div>
+    </>
   )
 }
 
