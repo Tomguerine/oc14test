@@ -81,6 +81,10 @@ export default function CreateEmployee() {
   const [zipCode, setZipCode] = useState('')
   const [department, setDepartment] = useState('')
   const [open, setOpen] = useState(false)
+  const [createdEmployee, setCreatedEmployee] = useState<{
+    firstName: string
+    lastName: string
+  } | null>(null)
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [error, setError] = useState('')
   const [announcement, setAnnouncement] = useState('')
@@ -128,6 +132,7 @@ export default function CreateEmployee() {
         department,
       })
     )
+    setCreatedEmployee({ firstName, lastName })
     setOpen(true)
     setFirstName('')
     setLastName('')
@@ -343,8 +348,17 @@ export default function CreateEmployee() {
         </button>
         </form>
       </div>
-      <Modal open={open} onOpenChange={setOpen} title="Employee Created">
-        The employee has been added to the list.
+      <Modal
+        open={open}
+        onOpenChange={o => {
+          setOpen(o)
+          if (!o) setCreatedEmployee(null)
+        }}
+        title="Employee Created"
+      >
+        {createdEmployee
+          ? `${createdEmployee.firstName} ${createdEmployee.lastName} a été ajouté(e)`
+          : 'The employee has been added to the list.'}
       </Modal>
     </>
   )
