@@ -9,6 +9,7 @@ interface DatePickerProps extends Omit<
   id: string
   label: string
   selected: Date | null
+  // eslint-disable-next-line no-unused-vars
   onChange: (date: Date | null) => void
   selectsRange?: never
   selectsMultiple?: never
@@ -26,11 +27,10 @@ export default function DatePicker({
   scrollableYearDropdown = true,
   ...props
 }: DatePickerProps) {
-  const Picker = ReactDatePicker as any
   return (
     <div className="flex flex-col gap-1">
       <label htmlFor={id}>{label}</label>
-      <Picker
+      <ReactDatePicker
         id={id}
         selected={selected}
         onChange={onChange}
