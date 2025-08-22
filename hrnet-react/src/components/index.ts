@@ -1,4 +1,4 @@
-export { default as Modal } from 'modal-pop-up-tom'
+export { Modal } from 'modal-pop-up-tom'
 export { default as Dropdown } from './Dropdown'
 export { default as DatePicker } from './DatePicker'
 export { default as DataTable } from './DataTable'
