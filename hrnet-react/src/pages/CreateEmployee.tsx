@@ -2,7 +2,9 @@ import { useEffect, useState, type FormEvent } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Dropdown from '../components/Dropdown'
-import { Modal as ModalPop } from 'modal-pop-up-tom'
+
+// option B
+import ModalPop from 'modal-pop-up-tom'
 import DatePicker from '../components/DatePicker'
 import { addEmployee } from '../features/employees/employeesSlice'
 import type { AppDispatch } from '../app/store'
@@ -349,18 +351,19 @@ export default function CreateEmployee() {
       </div>
       <ModalPop
         open={open}
-        onOpenChange={o => {
+        onOpenChange={(o) => {
           setOpen(o)
           if (!o) setCreatedEmployee(null)
         }}
         title="Employee Created"
-        firstName={createdEmployee?.firstName}
-        lastName={createdEmployee?.lastName}
+        firstName={createdEmployee?.firstName ?? '—'}
+        lastName={createdEmployee?.lastName ?? '—'}   // ❗ plus de guillemets
       >
         {createdEmployee
           ? `${createdEmployee.firstName} ${createdEmployee.lastName} a été ajouté(e)`
           : 'The employee has been added to the list.'}
       </ModalPop>
+
 
 
     </>
