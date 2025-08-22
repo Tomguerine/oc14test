@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Dropdown from '../components/Dropdown'
 
-// option B
 import ModalPop from 'modal-pop-up-tom'
 import DatePicker from '../components/DatePicker'
 import { addEmployee } from '../features/employees/employeesSlice'
