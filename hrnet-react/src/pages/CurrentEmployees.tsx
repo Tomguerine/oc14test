@@ -45,6 +45,10 @@ export default function CurrentEmployees() {
   const [virtualRows, setVirtualRows] = useState<Employee[]>([])
   const [paddingTop, setPaddingTop] = useState(0)
   const [paddingBottom, setPaddingBottom] = useState(0)
+  const [
+    sortConfig,
+    setSortConfig,
+  ] = useState<{ key: keyof Employee; direction: 'asc' | 'desc' } | null>(null)
 
   useEffect(() => {
     let cancelled = false
@@ -117,14 +121,22 @@ export default function CurrentEmployees() {
 
   useEffect(() => {
     const recalc = () => {
+      const sorted = sortConfig
+        ? [...data].sort((a, b) => {
+            const aVal = a[sortConfig.key]
+            const bVal = b[sortConfig.key]
+            const cmp = String(aVal).localeCompare(String(bVal))
+            return sortConfig.direction === 'asc' ? cmp : -cmp
+          })
+        : data
       const lower = globalFilter.toLowerCase()
       const filtered = globalFilter
-        ? data.filter(emp =>
+        ? sorted.filter(emp =>
             Object.values(emp).some(val =>
               String(val).toLowerCase().includes(lower),
             ),
           )
-        : data
+        : sorted
       setFilteredData(filtered)
       const total = filtered.length
       const start = Math.max(0, Math.floor(scrollTop / rowHeight) - overscan)
@@ -145,7 +157,7 @@ export default function CurrentEmployees() {
         (window as any).cancelIdleCallback(id)
       else clearTimeout(id)
     }
-  }, [data, globalFilter, scrollTop])
+  }, [data, globalFilter, scrollTop, sortConfig])
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     setScrollTop(e.currentTarget.scrollTop)
@@ -197,9 +209,35 @@ export default function CurrentEmployees() {
                           key={col.key}
                           role="columnheader"
                           scope="col"
-                          className="px-4 py-2 text-left"
+                          aria-sort={
+                            sortConfig?.key === col.key
+                              ? sortConfig.direction === 'asc'
+                                ? 'ascending'
+                                : 'descending'
+                              : 'none'
+                          }
+                          onClick={() =>
+                            setSortConfig(prev => {
+                              if (prev?.key === col.key)
+                                return {
+                                  key: col.key as keyof Employee,
+                                  direction:
+                                    prev.direction === 'asc' ? 'desc' : 'asc',
+                                }
+                              return {
+                                key: col.key as keyof Employee,
+                                direction: 'asc',
+                              }
+                            })
+                          }
+                          className="px-4 py-2 text-left cursor-pointer select-none"
                         >
-                          {col.header}
+                          {col.header}{' '}
+                          {sortConfig?.key === col.key && (
+                            <span aria-hidden="true">
+                              {sortConfig.direction === 'asc' ? '▲' : '▼'}
+                            </span>
+                          )}
                         </th>
                       ))}
                     </tr>
