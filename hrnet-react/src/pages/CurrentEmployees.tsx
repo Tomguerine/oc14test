@@ -19,6 +19,13 @@ interface Employee {
 
 const STORAGE_KEY = 'employees:v1'
 
+/* eslint-disable no-unused-vars */
+interface IdleWindow extends Window {
+  requestIdleCallback?: (cb: () => void) => number
+  cancelIdleCallback?: (id: number) => void
+}
+/* eslint-enable no-unused-vars */
+
 function useDebounce<T>(value: T, delay: number): T {
   const [debounced, setDebounced] = useState(value)
 
@@ -45,6 +52,7 @@ export default function CurrentEmployees() {
   const [virtualRows, setVirtualRows] = useState<Employee[]>([])
   const [paddingTop, setPaddingTop] = useState(0)
   const [paddingBottom, setPaddingBottom] = useState(0)
+  const workerRef = useRef<Worker | null>(null)
   const [
     sortConfig,
     setSortConfig,
@@ -74,8 +82,9 @@ export default function CurrentEmployees() {
         setStatus('ready')
       } else {
         const scheduleParse = () => parseAndSet(stored)
+        const idle = window as IdleWindow
         if ('requestIdleCallback' in window) {
-          ;(window as any).requestIdleCallback(scheduleParse)
+          idle.requestIdleCallback?.(scheduleParse)
         } else {
           setTimeout(scheduleParse, 0)
         }
@@ -120,44 +129,78 @@ export default function CurrentEmployees() {
   )
 
   useEffect(() => {
+    if (typeof Worker === 'undefined') return
+    const worker = new Worker(
+      new URL('../workers/employeeWorker.ts', import.meta.url),
+    )
+    workerRef.current = worker
+    worker.onmessage = e => {
+      setFilteredData(e.data as Employee[])
+    }
+    return () => {
+      worker.terminate()
+    }
+  }, [])
+
+  useEffect(() => {
+    const schedule = () => {
+      if (workerRef.current) {
+        workerRef.current.postMessage({
+          employees: data,
+          sortConfig,
+          globalFilter,
+        })
+      } else {
+        const sorted = sortConfig
+          ? [...data].sort((a, b) => {
+              const aVal = a[sortConfig.key]
+              const bVal = b[sortConfig.key]
+              const cmp = String(aVal).localeCompare(String(bVal))
+              return sortConfig.direction === 'asc' ? cmp : -cmp
+            })
+          : data
+        const lower = globalFilter.toLowerCase()
+        const filtered = globalFilter
+          ? sorted.filter(emp =>
+              Object.values(emp).some(val =>
+                String(val).toLowerCase().includes(lower),
+              ),
+            )
+          : sorted
+        setFilteredData(filtered)
+      }
+    }
+    const idle = window as IdleWindow
+    const id = idle.requestIdleCallback
+      ? idle.requestIdleCallback(schedule)
+      : window.setTimeout(schedule, 0)
+    return () => {
+      if (idle.cancelIdleCallback) idle.cancelIdleCallback(id)
+      else clearTimeout(id)
+    }
+  }, [data, globalFilter, sortConfig])
+
+  useEffect(() => {
     const recalc = () => {
-      const sorted = sortConfig
-        ? [...data].sort((a, b) => {
-            const aVal = a[sortConfig.key]
-            const bVal = b[sortConfig.key]
-            const cmp = String(aVal).localeCompare(String(bVal))
-            return sortConfig.direction === 'asc' ? cmp : -cmp
-          })
-        : data
-      const lower = globalFilter.toLowerCase()
-      const filtered = globalFilter
-        ? sorted.filter(emp =>
-            Object.values(emp).some(val =>
-              String(val).toLowerCase().includes(lower),
-            ),
-          )
-        : sorted
-      setFilteredData(filtered)
-      const total = filtered.length
+      const total = filteredData.length
       const start = Math.max(0, Math.floor(scrollTop / rowHeight) - overscan)
       const end = Math.min(
         total,
         start + Math.ceil(viewportHeight / rowHeight) + overscan,
       )
-      setVirtualRows(filtered.slice(start, end))
+      setVirtualRows(filteredData.slice(start, end))
       setPaddingTop(start * rowHeight)
       setPaddingBottom((total - end) * rowHeight)
     }
-
-    const id = (window as any).requestIdleCallback
-      ? (window as any).requestIdleCallback(recalc)
+    const idle = window as IdleWindow
+    const id = idle.requestIdleCallback
+      ? idle.requestIdleCallback(recalc)
       : window.setTimeout(recalc, 0)
     return () => {
-      if ((window as any).cancelIdleCallback)
-        (window as any).cancelIdleCallback(id)
+      if (idle.cancelIdleCallback) idle.cancelIdleCallback(id)
       else clearTimeout(id)
     }
-  }, [data, globalFilter, scrollTop, sortConfig])
+  }, [filteredData, scrollTop])
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     setScrollTop(e.currentTarget.scrollTop)

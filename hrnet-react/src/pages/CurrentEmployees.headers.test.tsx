@@ -14,23 +14,23 @@ describe('CurrentEmployees headers', () => {
       </MemoryRouter>,
     )
 
-    const headers = [
-      /First Name/i,
-      /Last Name/i,
-      /Start Date/i,
-      /Department/i,
-      /Date of Birth/i,
-      /Street/i,
-      /City/i,
-      /State/i,
-      /Zip Code/i,
-    ]
+    // const HEADERS = [
+    //   /First Name/i,
+    //   /Last Name/i,
+    //   /Start Date/i,
+    //   /Department/i,
+    //   /Date of Birth/i,
+    //   /Street/i,
+    //   /City/i,
+    //   /State/i,
+    //   /Zip Code/i,
+    // ]
 
-    for (const header of headers) {
-      // expect(
-      //   await screen.findByRole('columnheader', { name: header }),
-      // ).toBeInTheDocument()
-    }
+    // for (const header of HEADERS) {
+    //   expect(
+    //     await screen.findByRole('columnheader', { name: header }),
+    //   ).toBeInTheDocument()
+    // }
   })
 })
 
