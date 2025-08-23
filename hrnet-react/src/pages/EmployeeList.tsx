@@ -7,10 +7,11 @@ import { seedEmployees } from '../features/employees/seedData'
 import type { ColumnDef } from '@tanstack/react-table'
 import type { DataTableProps } from '../components/DataTable'
 
-const DataTable = lazy(() => import('../components/DataTable'))
-  as React.LazyExoticComponent<
-    React.ComponentType<DataTableProps<Employee>>
-  >
+const DataTable = lazy(
+  () => import('../components/DataTable'),
+) as React.LazyExoticComponent<
+  React.ComponentType<DataTableProps<Employee>>
+>
 
 
 export default function EmployeeList() {
