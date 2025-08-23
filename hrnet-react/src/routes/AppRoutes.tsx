@@ -2,6 +2,8 @@ import { Routes, Route } from 'react-router-dom'
 import { Suspense, lazy } from 'react'
 import CreateEmployee from '../pages/CreateEmployee'
 
+=======
+import CreateEmployee from '../pages/CreateEmployee'
 const CurrentEmployees = lazy(() => import('../pages/CurrentEmployees'))
 
 export default function AppRoutes() {

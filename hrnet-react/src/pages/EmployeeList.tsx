@@ -1,17 +1,11 @@
-import React, { useMemo, Suspense, lazy } from 'react'
+import React, { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import type { RootState } from '../app/store'
 import type { Employee } from '../features/employees/employeesSlice'
 import { seedEmployees } from '../features/employees/seedData'
 import type { ColumnDef } from '@tanstack/react-table'
-import type { DataTableProps } from '../components/DataTable'
-
-const DataTable = lazy(
-  () => import('../components/DataTable'),
-) as React.LazyExoticComponent<
-  React.ComponentType<DataTableProps<Employee>>
->
+import DataTable from '../components/DataTable'
 
 
 export default function EmployeeList() {
@@ -44,9 +38,7 @@ export default function EmployeeList() {
         Current Employees
       </h2>
       <div className="max-w-3xl mx-auto bg-white shadow rounded p-6">
-        <Suspense fallback={<div>Loading...</div>}>
-          <DataTable columns={columns} data={data} />
-        </Suspense>
+        <DataTable columns={columns} data={data} />
       </div>
       <div className="mt-4 text-center space-x-4">
         <Link to="/">Create Employee</Link>
