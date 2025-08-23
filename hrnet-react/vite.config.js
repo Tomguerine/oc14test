@@ -4,7 +4,10 @@ import compression from 'vite-plugin-compression'
 
 // https://vite.dev/config/
 export default defineConfig({
+
   build: {
+        target: 'esnext',
+
     minify: 'terser',
     terserOptions: {
       compress: {
